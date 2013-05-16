@@ -10,10 +10,10 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources Wizard">
-   	 		  <field name="name"/>
+   	 		  <field name="name" /> <!--on_change="onchange_name(name,task_id)"/>-->
 			  <field name="quantity"/>
-			  <field name="task_id"/>
-<!--			  <field name="name_r1"/>
+<!--			  <field name="task_id" />
+			  <field name="name_r1"/>
 			  <field name="quantity_r1"/>
 			  <field name="name_r2"/>
 			  <field name="quantity_r2"/>
@@ -33,10 +33,10 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources tree">
-   	 		  <field name="name" widget='selection'/>
+   	 		  <field name="name" widget='selection' on_change="onchange_name(name)"/>
 			  <field name="quantity"/>
-			  <field name="task_id" invisible="1"/>
-<!--			  <field name="name_r1"/>
+	<!--		  <field name="task_id" invisible="1"/>
+			  <field name="name_r1"/>
 			  <field name="quantity_r1"/>
 			  <field name="name_r2"/>
 			  <field name="quantity_r2"/>
@@ -105,8 +105,8 @@
 	                        <page string="Recursos">
 	                        <field name="resource_ids" nolabel="1" colspan="4">
 	                        	<tree string="Resource lines" editable="bottom">
-	                       			<field name="name"/>
-	                       			<field name="quantity"/>
+	                       			<field name="name"  on_change="onchange_name(name)"/>
+	                       			<field name="quantity" />
 	                       		</tree>
 	                       	</field>
 	                  	</page>
@@ -173,7 +173,8 @@
     
     <menuitem id="latinuxtarea_tarea_menu" sequence="10" name="LatinuxTareas"/>
     <menuitem id="latinuxtarea_tarea_menu_1" parent="latinuxtarea_tarea_menu" sequence="10" name="LatinuxTarea Tarea"/>
-    <menuitem id='latinuxtarea_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='latinuxtarea_tarea_menu_1' action='action_latinuxtarea_target_tree'/>
+    <menuitem id="latinuxtarea_tarea_menu_4" parent="latinuxtarea_tarea_menu" sequence="9" name="LatinuxTarea Obj"/>
+    <menuitem id='latinuxtarea_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='latinuxtarea_tarea_menu_4' action='action_latinuxtarea_target_tree'/>
     <menuitem id="latinuxtarea_tarea_menu_2" action="action_latinuxtarea_tarea_tree" parent="latinuxtarea_tarea_menu_1" sequence="2" name="LatinuxTarea Tarea"/>
 
 </data>

@@ -20,7 +20,6 @@
 ##############################################################################
 
 from openerp.osv import osv,fields
-#from openerp.osv import fields
 from openerp.tools.translate import _
 import time
 
@@ -38,20 +37,15 @@ class latinuxtarea_tarea(osv.osv):
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('latinuxtarea.target','Target',required=True),
         'resource_ids': fields.one2many('latinuxtarea.recurso','task_id','Recursos'),
-        #'product_id':fields.many2one('product.product', 'Product'),
-        #'quantity':fields.integer('Quantity'),
-        'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')], 'State', readonly=True, required=True,
-                                  help='If the task is created the state is \'Draft\'.\n If the task is started, the state becomes \'In Progress\'.\n If review is needed the task is in \'Pending\' state.\
-                                  \n If the task is over, the states is set to \'Done\'.'),
-        
-    }
+        'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')], 'State', readonly=True, required=True, help='When the task is created the state is \'Draft\'.\n If the task is started, the state becomes \'In Progress\'.\n If review is needed the task is in \'Pending\' state.\n If the task is over, the states is set to \'Done\'.'),    	
+    	}
 
     _defaults = {
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
         'date_create': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        #'quantity': lambda *a :0,
     }
+    
     _order = 'date_create desc'
     
     #_sql_constraints = [('resource_uniq','unique(task_id,resource_id)', "Resource can't be duplicated!!")] #or just constraints?
@@ -73,14 +67,23 @@ class latinuxtarea_recurso(osv.osv):
 
     _name = 'latinuxtarea.recurso'
     _columns = {
- 	       'name':fields.many2one('product.product', 'Product'),
+ 	       'name':fields.many2one('product.product', 'Product',required=True),
  	       'task_id':fields.many2one('latinuxtarea.tarea','Task',ondelete='cascade', select=True),
  	       'quantity':fields.integer('Quantity'),
  	       }
 
     _defaults = {
-        	'quantity': lambda *a :0,
+        	'quantity': lambda *a :1,
 		}
+		
+    _sql_constraints = [
+    ('resource_uniq','unique(name,task_id)', 'Resource must be unique per task!\nSUGERENCIA: el recurso ya ha sido agregado, solo modifique su cantidad'),
+    ]
+    
+    def onchange_name(self,cr,uid,ids,prod_id,context={}):
+    	this=self.browse(cr,uid,ids)[0]
+    	#task=self.pool.get('latinuxtarea.tarea').read(cr,uid,this.task_id,context=context)    	
+    	return True
     
     def accion(self,cr,uid,ids,context={}):
     	this=self.browse(cr,uid,ids,context=context)[0]

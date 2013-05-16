@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+   
+        <!--  =========== VIEWS =========== -->   
+   
+        <record model="ir.ui.view" id="view_task_report_wizard">
+            <field name="name">Report</field>
+            <field name="model">task.report.wizard</field>
+            <field name="type">form</field>            
+            <field name="arch" type="xml">
+                <form col="10" string="Reporte Tareas">
+                    <group col="3" fill="0" height="150" width="500" states="choose">                       
+                        <field invisible="1" name="state"/>                 
+                        <button special="cancel" icon="gtk-cancel" string="Cancelar"/>
+                        <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear"/>
+                    </group>
+                    <group col="2" states="fin">                        
+			<field name="data" colspan="1" rowspan="1"/>
+			<field name="name" colspan="1" rowspan="2"/>
+                        <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin" />
+                    </group>
+                </form>
+            </field>
+        </record>
+		
+	<!--  =========== ACTIONS =========== -->   
+       
+        <record model="ir.actions.act_window" id="action_report_task_1">
+            <field name="name">Report</field>
+            <field name="res_model">task.report.wizard</field>
+            <field name="view_type">form</field>   
+	    <field name="view_id" ref="view_task_report_wizard"/>		
+            <field name="target">new</field>
+        </record>
+
+	<!--  =========== MENU ITEMS =========== -->
+        <menuitem id="menu_report_task_1" name="Reporte Tareas"
+                    action="action_report_task_1"
+                    parent="latinuxtarea_tarea_menu_4"
+                    sequence="1000" icon="STOCK_PRINT"/>
+	
+    </data>
+</openerp>
