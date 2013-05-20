@@ -120,7 +120,7 @@ class latinuxtarea_target(osv.osv):
             'name':fields.char('Name', size=64, required=True),
             'task_ids':fields.one2many('latinuxtarea.tarea', 'target_id', 'Task', required=False),
             'description':fields.text('Description'),# readonly=True, states={('draft','open','pending'): [('readonly', False)]}),
-            'progress':fields.function(_get_progress_status,string='Progress',type='float',digits=(4,2)),
+            'progress':fields.function(_get_progress_status,string='Progress State',type='float',digits=(4,2)),
             }
 
 latinuxtarea_target()
