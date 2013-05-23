@@ -47,8 +47,6 @@ class latinuxtarea_tarea(osv.osv):
     }
     
     _order = 'date_create desc'
-    
-    #_sql_constraints = [('resource_uniq','unique(task_id,resource_id)', "Resource can't be duplicated!!")] #or just constraints?
 
     def do_open(self, cr, uid, ids, context={}):
         data = {'state': 'open'}
@@ -69,24 +67,33 @@ class latinuxtarea_recurso(osv.osv):
     _columns = {
  	       'name':fields.many2one('product.product', 'Product',required=True),
  	       'task_id':fields.many2one('latinuxtarea.tarea','Task',ondelete='cascade', select=True),
- 	       'quantity':fields.integer('Quantity'),
+ 	       'quantity':fields.integer('Quantity'), 	       
  	       }
 
     _defaults = {
         	'quantity': lambda *a :1,
-		}
+        	}
 		
     _sql_constraints = [
-    ('resource_uniq','unique(name,task_id)', 'Resource must be unique per task!\nSUGERENCIA: el recurso ya ha sido agregado, solo modifique su cantidad'),
+    ('resource_uniq','unique(name,task_id)', "Resource must be unique per task!\nSUGERENCIA: hay un recurso ya ha sido agregado, solo modifique su cantidad"),
     ]
     
-    def onchange_name(self,cr,uid,ids,prod_id,context={}):
-    	this=self.browse(cr,uid,ids)[0]
-    	#task=self.pool.get('latinuxtarea.tarea').read(cr,uid,this.task_id,context=context)    	
-    	return True
+    #def onchange_name(self,cr,uid,ids,prod_id,tid,context={}):
+    #	print "entra"
+	#res={}
+    	#objs=self.browse(cr,uid,ids)
+    	#for obj in objs:
+    	#    if (prod_id,tid) == (obj.name,obj.task_id):
+    	#	res[obj.id]={'state':'error'}
+    	#	break
+    	#    else:
+    	    	#self.write(cr,uid,obj.id,{'state':'done'},)
+    	#	res[obj.id]={'state':'done'}    			
+#    	task=self.pool.get('latinuxtarea.tarea').read(cr,uid,this.task_id,context=context)    	
+    	#return res
     
     def accion(self,cr,uid,ids,context={}):
-    	this=self.browse(cr,uid,ids,context=context)[0]
+    	#this=self.browse(cr,uid,ids,context=context)[0]
         return True
     
 latinuxtarea_recurso()
