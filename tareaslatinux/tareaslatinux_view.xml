@@ -153,7 +153,8 @@
 		<field name="arch" type="xml">
 	       	    <form string="lt target" >
 	       	    	<field name="name" select="1" colspan="3"/>
-		        <field name="partner_id" string="Customer" widget="selection"/>
+		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)"/>
+		        <field name="location"/>
 		        <field name="description" />		
 			<field name="task_ids" invisible="0" readonly="1" nolabel="1" >
 				<tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">

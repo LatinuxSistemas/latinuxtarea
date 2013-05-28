@@ -127,8 +127,22 @@ class lt_target(osv.osv):
             'task_ids':fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
             'description':fields.text('Description'),# readonly=True, states={('draft','open','pending'): [('readonly', False)]}),
             'partner_id': fields.many2one('res.partner', 'Partner', required=True),
-            #'location_id':fields.many2one(''),
+            'location':fields.char('Ubicación',size=150,required=False),
             'progress':fields.function(_get_progress_status,string='Progress State',type='float',digits=(4,2)),
             }
-
+            
+    def onchange_partner(self,cr,uid,ids,partner_id,context={}):
+    	
+    	#partner=self.pool.get('res.partner').browse(cr,uid,partner_id,context)
+    	addresses=self.pool.get('res.partner.address')
+#    	print addresses
+	location='sin definir'
+	if addresses:
+    	    address_id=addresses.search(cr,uid,[('partner_id','=',partner_id)])
+    	    address=addresses.browse(cr,uid,address_id)[0]
+    	    print address
+    	    location=(address.city or '') + ((', ' + address.state_id.name )or '') + ((', ' + address.country_id.name )or '')
+    	    print "HOLA!!", address, location
+    	
+	return {'value':{'location':location}}
 lt_target()
