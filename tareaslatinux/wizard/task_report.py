@@ -6,9 +6,9 @@ from openerp.osv import fields, osv
 import time 
 import openerp.netsvc as netsvc
 
-class task_report_wizard(osv.osv_memory):
+class lt_task_report_wizard(osv.osv_memory):
     
-    _name = "task.report.wizard"
+    _name = "lt.task.report.wizard"
     _description = "Crear Reporte de Tareas"
     _columns = {
     		'data': fields.binary('Archivo',readonly=True),
@@ -71,4 +71,4 @@ class task_report_wizard(osv.osv_memory):
 	    
         return self.write(cr, uid, ids, {'state':'fin', 'data':salida, 'name':this.name}, context=context)
        
-task_report_wizard()
+lt_task_report_wizard()

@@ -23,20 +23,19 @@ from openerp.osv import osv,fields
 from openerp.tools.translate import _
 import time
 
-class latinuxtarea_tarea(osv.osv):
+class lt_tarea(osv.osv):
     
     """ latinuxtarea """
     
-    _name = 'latinuxtarea.tarea'
+    _name = 'lt.tarea'
     _columns = {
         'user_id': fields.many2one('res.users', 'Creator', required=True, readonly=True),
-        'name': fields.char('Task Summary', size=128, required=True, select=True),
+        'name': fields.char('Task Name', size=128, required=True, select=True),
         'date_create': fields.date('Create Date', select=True),
-        'date_deadline': fields.date('Deadline',select=True),
-        'partner_id': fields.many2one('res.partner', 'Partner'),
+        'date_deadline': fields.date('Deadline',select=True),        
         'description': fields.text('Description', help='Task contents'),
-        'target_id': fields.many2one('latinuxtarea.target','Target',required=True),
-        'resource_ids': fields.one2many('latinuxtarea.recurso','task_id','Recursos'),
+        'target_id': fields.many2one('lt.target','Target',required=True),
+        'resource_ids': fields.one2many('lt.recurso','task_id','Recursos'),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')], 'State', readonly=True, required=True, help='When the task is created the state is \'Draft\'.\n If the task is started, the state becomes \'In Progress\'.\n If review is needed the task is in \'Pending\' state.\n If the task is over, the states is set to \'Done\'.'),    	
     	}
 
@@ -57,16 +56,16 @@ class latinuxtarea_tarea(osv.osv):
         self.write(cr, uid, ids, {'state': 'draft'}, context=context)
         return True
     
-latinuxtarea_tarea()
+lt_tarea()
 
-class latinuxtarea_recurso(osv.osv):
+class lt_recurso(osv.osv):
 
     """ recursos usados en una tarea """
 
-    _name = 'latinuxtarea.recurso'
+    _name = 'lt.recurso'
     _columns = {
  	       'name':fields.many2one('product.product', 'Product',required=True),
- 	       'task_id':fields.many2one('latinuxtarea.tarea','Task',ondelete='cascade', select=True),
+ 	       'task_id':fields.many2one('lt.tarea','Task',ondelete='cascade', select=True),
  	       'quantity':fields.integer('Quantity'), 	       
  	       }
 
@@ -96,9 +95,9 @@ class latinuxtarea_recurso(osv.osv):
     	#this=self.browse(cr,uid,ids,context=context)[0]
         return True
     
-latinuxtarea_recurso()
+lt_recurso()
 
-class latinuxtarea_target(osv.osv):
+class lt_target(osv.osv):
 
     """ objetivos de las tareas """	
 
@@ -106,7 +105,7 @@ class latinuxtarea_target(osv.osv):
     	"""" calculate target's progress status """
     	res={}
     	this=self.browse(cr,uid,ids,context=context)
-    	tasks=self.pool.get('latinuxtarea.tarea')
+    	tasks=self.pool.get('lt.tarea')
     	for obj in this:
     	    total=len(obj.task_ids) or 1.0
 	    res[obj.id]=0.0
@@ -121,13 +120,15 @@ class latinuxtarea_target(osv.osv):
     		
     	return res
     	
-    _name = 'latinuxtarea.target'
+    _name = 'lt.target'
         
     _columns = {
             'name':fields.char('Name', size=64, required=True),
-            'task_ids':fields.one2many('latinuxtarea.tarea', 'target_id', 'Task', required=False),
+            'task_ids':fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
             'description':fields.text('Description'),# readonly=True, states={('draft','open','pending'): [('readonly', False)]}),
+            'partner_id': fields.many2one('res.partner', 'Partner', required=True),
+            #'location_id':fields.many2one(''),
             'progress':fields.function(_get_progress_status,string='Progress State',type='float',digits=(4,2)),
             }
 
-latinuxtarea_target()
+lt_target()

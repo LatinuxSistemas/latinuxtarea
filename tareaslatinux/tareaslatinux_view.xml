@@ -4,9 +4,9 @@
     
     <!-- latinux tareas recursos -->
 
-    <record model="ir.ui.view" id="latinuxtarea_recursos_form_view">
-    	<field name="name">latinuxtarea.recursos.form.view</field>
-		<field name="model">latinuxtarea.recurso</field>
+    <record model="ir.ui.view" id="lt_recursos_form_view">
+    	<field name="name">lt.recursos.form.view</field>
+		<field name="model">lt.recurso</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources">   	 		  
@@ -28,9 +28,9 @@
 		</field>
     </record>
     
-    <record model="ir.ui.view" id="latinuxtarea_recursos_tree_view">
-    	<field name="name">latinuxtarea.recursos.tree.view</field>
-		<field name="model">latinuxtarea.recurso</field>
+    <record model="ir.ui.view" id="lt_recursos_tree_view">
+    	<field name="name">lt.recursos.tree.view</field>
+		<field name="model">lt.recurso</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="LT Resources tree">
@@ -51,27 +51,26 @@
 		</field>
     </record>
 
-    <record id="action_latinuxtarea_recursos_form" model="ir.actions.act_window" >
+    <record id="action_lt_recursos_form" model="ir.actions.act_window" >
         <field name="name">LT Resources</field>
 	<field name="type">ir.actions.act_window</field>
-        <field name="res_model">latinuxtarea.recurso</field>
+        <field name="res_model">lt.recurso</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
-	<field name="view_id" ref="latinuxtarea_recursos_form_view"/>
+	<field name="view_id" ref="lt_recursos_form_view"/>
 	<field name="target">new</field>	
     </record>
     
-    <record model="ir.ui.view" id="latinuxtarea_tarea_tree_view">
-		<field name="name">latinuxtarea.tarea.tree</field>
-		<field name="model">latinuxtarea.tarea</field>
+    <record model="ir.ui.view" id="lt_tarea_tree_view">
+		<field name="name">lt.tarea.tree</field>
+		<field name="model">lt.tarea</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		  <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="LatinuxTarea Tasks">
+		  <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="lt Tasks">
+		    	<field name="name" select="1" string="Task Name"/>
 		    	<field name="user_id"/>
-                        <field name="name" select="1"/>	
-			<field name="date_create"/>
+                        <field name="date_create"/>
 			<field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
-			<field name="partner_id" string="Partner"/>
 			<field name="description"/>
 			<button name="next_type" invisible="context.get('set_visible',False)"
                         states="draft,open,pending"
@@ -86,19 +85,18 @@
 		</field>
     </record>    
     
-    <record model="ir.ui.view" id="latinuxtarea_tarea_form_view">
-    	<field name="name">latinuxtarea.tarea.form</field>
-		<field name="model">latinuxtarea.tarea</field>
+    <record model="ir.ui.view" id="lt_tarea_form_view">
+    	<field name="name">lt.tarea.form</field>
+		<field name="model">lt.tarea</field>
 		<field name="priority">2</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-		<form string="LatinuxTarea Tarea">
+		<form string="Latinux Tarea">
 		<group>
 			 <field name="user_id"/>
-			 <field name="name" string="Task Summary"/>
+			 <field name="name" string="Task Name"/>
 			 <field name="date_create"/>
 			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}"/>
-			 <field colspan="4" name="partner_id" select="1" string="Customer"/>	
 			 <field colspan="4" name="description" nolabel="1"  attrs="{'readonly':[('state','=','done')]}" widget="text_wiki"/>
 			 <field name="target_id"/>
 		</group>
@@ -123,41 +121,40 @@
 	</field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_latinuxtarea_tarea_tree">
-        <field name="name">Latinux Tarea Tarea</field>
+    <record model="ir.actions.act_window" id="action_lt_tarea_tree">
+        <field name="name">LatinuxTarea Tarea</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">latinuxtarea.tarea</field>
+        <field name="res_model">lt.tarea</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>        
     </record>
        
     <!-- latinux tareas objetivos -->
     
-    <record model="ir.ui.view" id="latinuxtarea_target_tree_view">
-		<field name="name">latinuxtarea.target.tree</field>
-		<field name="model">latinuxtarea.target</field>
+    <record model="ir.ui.view" id="lt_target_tree_view">
+		<field name="name">lt.target.tree</field>
+		<field name="model">lt.target</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		  <tree string="LatinuxTarea target">
+		  <tree string="lt target">
 		        <field name="name" select="1"/>			
 			<field name="task_ids" invisible="1"/>
-			<field name="description"/>
+			<field name="partner_id" string="Customer"/>	
+			<field name="description" invisible="1"/>
 			<field name="progress" />
 		    </tree>
 		</field>
     </record>    
     
-    <record model="ir.ui.view" id="latinuxtarea_target_form_view">
-		<field name="name">latinuxtarea.target.form</field>
-		<field name="model">latinuxtarea.target</field>
+    <record model="ir.ui.view" id="lt_target_form_view">
+		<field name="name">lt.target.form</field>
+		<field name="model">lt.target</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-	       	    <form string="LatinuxTarea target" >
-	       	    	<group colspan="8">
-		        <field name="name" select="1" colspan="3"/>			
-			<field name="description" />		
-			</group>
-			<group colspan="4" rowspan="6">
+	       	    <form string="lt target" >
+	       	    	<field name="name" select="1" colspan="3"/>
+		        <field name="partner_id" string="Customer" widget="selection"/>
+		        <field name="description" />		
 			<field name="task_ids" invisible="0" readonly="1" nolabel="1" >
 				<tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
                        			<field name="date_create"/>
@@ -166,29 +163,27 @@
                        			<field name="state"/>
                        		</tree>
 	                </field>
-	                </group>		        
-		        <group colspan="4">
-                       	<field name="progress" widget="progressbar" colspan="2"/>
-                       	</group>
-		    </form>
+	                <field name="progress" widget="progressbar" colspan="2"/>
+                       	</form>
 		</field>
     </record>
     
-    <record model='ir.actions.act_window' id='action_latinuxtarea_target_tree'>
-        <field name='name'>LatinuxTarea Objetivos</field>
+    <record model='ir.actions.act_window' id='action_lt_target_tree'>
+        <field name='name'>Latinux Objetivos</field>
         <field name='type'>ir.actions.act_window</field>
-        <field name='res_model'>latinuxtarea.target</field>
+        <field name='res_model'>lt.target</field>
+        <field name="domain">[('partner_id.customer','=',True)]</field>
         <field name='view_type'>form</field>
         <field name='view_mode'>tree,form</field>
     </record>
     
     <!-- MENU -->
     
-    <menuitem id="latinuxtarea_tarea_menu" sequence="10" name="LatinuxTareas"/>
-    <menuitem id="latinuxtarea_tarea_menu_1" parent="latinuxtarea_tarea_menu" sequence="10" name="LatinuxTarea Tarea"/>
-    <menuitem id="latinuxtarea_tarea_menu_4" parent="latinuxtarea_tarea_menu" sequence="9" name="LatinuxTarea Obj"/>
-    <menuitem id='latinuxtarea_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='latinuxtarea_tarea_menu_4' action='action_latinuxtarea_target_tree'/>
-    <menuitem id="latinuxtarea_tarea_menu_2" action="action_latinuxtarea_tarea_tree" parent="latinuxtarea_tarea_menu_1" sequence="2" name="LatinuxTarea Tarea"/>
+    <menuitem id="lt_tarea_menu" sequence="10" name="LainuxTareas"/>
+    <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="Latinux Tarea"/>
+    <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="Latinux Obj"/>
+    <menuitem id='lt_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
+    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="Latinux Tarea"/>
 
 </data>
 </openerp>
