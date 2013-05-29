@@ -133,16 +133,12 @@ class lt_target(osv.osv):
             
     def onchange_partner(self,cr,uid,ids,partner_id,context={}):
     	
-    	#partner=self.pool.get('res.partner').browse(cr,uid,partner_id,context)
     	addresses=self.pool.get('res.partner.address')
-#    	print addresses
 	location='sin definir'
 	if addresses:
     	    address_id=addresses.search(cr,uid,[('partner_id','=',partner_id)])
     	    address=addresses.browse(cr,uid,address_id)[0]
-    	    print address
     	    location=(address.city or '') + ((', ' + address.state_id.name )or '') + ((', ' + address.country_id.name )or '')
-    	    print "HOLA!!", address, location
     	
 	return {'value':{'location':location}}
 lt_target()
