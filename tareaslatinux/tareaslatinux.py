@@ -71,11 +71,22 @@ class lt_recurso(osv.osv):
  	            'name': fields.many2one('product.product', 'Product', required=True),
      	        'task_id': fields.many2one('lt.tarea', 'Task', ondelete='cascade', select=True),
  	            'quantity': fields.integer('Quantity'),
+                'resource_price': fields.float('Price'),
                }
 
     _defaults = {
                  'quantity': lambda *a :1,
                 }
+
+    def onchange_set_price(self, cr, uid, ids, product_id, quantity=1.0, context={}):
+        print "begin onchange_set_price",product_id, quantity
+        product = self.pool.get('product.product').browse(cr, uid, product_id)
+        print "standard_price:", product.product_tmpl_id.standard_price, "list_price:", product.product_tmpl_id.list_price
+        print "price_extra:", product.price_extra, "price_margin:", product.price_margin
+        print "cost_method:", product.product_tmpl_id.cost_method
+
+
+        return True
 
     _sql_constraints = [
                         ('resource_uniq','unique(name,task_id)',
@@ -108,21 +119,21 @@ class lt_target(osv.osv):
     """ objetivos de las tareas """
 
     def _get_progress_status(self, cr, uid, ids, fields, args, context):
-    	"""" calculate target's progress status """
-    	res = {}
-    	this = self.browse(cr, uid, ids, context=context)
-    	tasks = self.pool.get('lt.tarea')
-    	for obj in this:
-    	    total = len(obj.task_ids) or 1.0
-	    res[obj.id] = 0.0
-	    cont = 0
-	    for tid in obj.task_ids:
-    		task = tasks.read(cr, uid, tid.id, ['state'])
-    		if task['state'] in ('cancelled', 'done'):
-    		    cont += 1
-    		elif task['state'] in ('open', 'pending'):
-    		    cont += 0.5
- 	    res[obj.id] = (cont/total)*100
+        """ calculate target's progress status """
+        res = {}
+        this = self.browse(cr, uid, ids, context=context)
+        tasks = self.pool.get('lt.tarea')
+        for obj in this:
+            total = len(obj.task_ids) or 1.0
+            res[obj.id] = 0.0
+            cont = 0
+            for tid in obj.task_ids:
+                task = tasks.read(cr, uid, tid.id, ['state'])
+                if task['state'] in ('cancelled', 'done'):
+                    cont += 1
+                elif task['state'] in ('open', 'pending'):
+                    cont += 0.5
+            res[obj.id] = (cont/total)*100
 
     	return res
 

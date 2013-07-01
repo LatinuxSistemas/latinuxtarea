@@ -2,7 +2,9 @@
 <openerp>
 <data>
     
-    <!-- latinux tareas recursos -->
+    <!-- ########### -->
+    <!-- lt recursos -->
+    <!-- ########### -->
 
     <record model="ir.ui.view" id="lt_recursos_form_view">
     	<field name="name">lt.recursos.form.view</field>
@@ -10,20 +12,9 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources">   	 		  
-   	 		  <field name="name" /> <!--on_change="onchange_name(name,task_id)"/>-->   	 		 
-			  <field name="quantity"/>
-			  <field name="state"/>
-<!--			  <field name="task_id" />
-			  <field name="name_r1"/>
-			  <field name="quantity_r1"/>
-			  <field name="name_r2"/>
-			  <field name="quantity_r2"/>
-			  <field name="name_r3"/>
-			  <field name="quantity_r3"/>-->
-<!--			  <group colspan="2" col="4">
-			  	<button type="action" special="cancel" icon="gtk-cancel" string="Cancelar" />
-			  	<button type="object" name="accion" icon="gtk-ok" string="Aceptar" />
-			  </group>-->
+    	        <field name="name" on_change="onchange_set_price(name)"/>
+                <field name="quantity" on_change="onchange_set_price(name,quantity)"/>
+                <!--                <field name="state"/>-->
 			</form>
 		</field>
     </record>
@@ -34,53 +25,47 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="LT Resources tree">
-   	 		  <field name="name" widget='selection'/> <!--on_change="onchange_name(name)"-->
-			  <field name="quantity"/>			 
-	<!--		  <field name="task_id" invisible="1"/>
-			  <field name="name_r1"/>
-			  <field name="quantity_r1"/>
-			  <field name="name_r2"/>
-			  <field name="quantity_r2"/>
-			  <field name="name_r3"/>
-			  <field name="quantity_r3"/>-->
-<!--			  <group colspan="2" col="4">
-			  <button type="action" special="cancel" icon="gtk-cancel" string="Cancelar" />
-			  <button type="object" name="accion" icon="gtk-ok" string="Aceptar" />
-			  </group>-->
+   	 		    <field name="name" widget='selection'/> <!--on_change="onchange_name(name)"-->
+			    <field name="quantity"/>
+                <field name="resource_price"/>
 			</tree>
 		</field>
     </record>
 
     <record id="action_lt_recursos_form" model="ir.actions.act_window" >
         <field name="name">LT Resources</field>
-	<field name="type">ir.actions.act_window</field>
+    	<field name="type">ir.actions.act_window</field>
         <field name="res_model">lt.recurso</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
-	<field name="view_id" ref="lt_recursos_form_view"/>
-	<field name="target">new</field>	
+	    <field name="view_id" ref="lt_recursos_form_view"/>
+    	<field name="target">new</field>	
     </record>
     
+    <!-- ######### -->
+    <!-- lt tareas -->
+    <!-- ######### -->
+
     <record model="ir.ui.view" id="lt_tarea_tree_view">
 		<field name="name">lt.tarea.tree</field>
 		<field name="model">lt.tarea</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		  <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="lt Tasks">
-		    	<field name="name" select="1" string="Task Name"/>
-		    	<field name="user_id"/>
-                        <field name="date_create"/>
-			<field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
-			<field name="description"/>
-			<button name="next_type" invisible="context.get('set_visible',False)"
+		    <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="lt Tasks">
+		   	    <field name="name" select="1" string="Task Name"/>
+		   	    <field name="user_id"/>
+                <field name="date_create"/>
+			    <field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
+			    <field name="description"/>
+			    <button name="next_type" invisible="context.get('set_visible',False)"
                         states="draft,open,pending"
                         string="Change Stage"
                         type="object"
                         icon="gtk-go-forward"
                         groups="base.group_extended"
                         help="Change Type"/>
-			<field name="state"/>
-			<button name="do_open" states="pending,draft,done,cancelled" string="Start Task" type="object" icon="gtk-media-play" help="For changing to open state" invisible="context.get('set_visible',False)"/>
+    			<field name="state"/>
+	    		<button name="do_open" states="pending,draft,done,cancelled" string="Start Task" type="object" icon="gtk-media-play" help="For changing to open state" invisible="context.get('set_visible',False)"/>
 		    </tree>
 		</field>
     </record>    
@@ -101,22 +86,23 @@
 			 <field name="target_id"/>
 		</group>
 		<notebook colspan="4">
-	                 <page string="Recursos">
-	                        <field name="resource_ids" nolabel="1" colspan="4">
-	                        	<tree string="Resource lines" editable="bottom">
-	                       			<field name="name"/> <!--on_change="onchange_name(name)"/>-->
-	                       			<field name="quantity" />
-	                       		</tree>
-	                       	</field>
-	               	 </page>
-	        </notebook>
+	        <page string="Recursos">
+	            <field name="resource_ids" nolabel="1" colspan="4">
+	              	<tree string="Resource lines" editable="bottom">
+	                    <field name="name" on_change="onchange_set_price(name)"/>
+                        <field name="quantity" on_change="onchange_set_price(name,quantity)"/>
+                        <field name="resource_price"/>
+	                </tree>
+	            </field>
+	       	</page>
+	    </notebook>
 		<newline/>
-		<group col="11" colspan="4">
-		       <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"pending":"blue"}' select="1"/>
-		       <button name="do_cancel" states="draft,open,pending" string="Cancel" type="object" icon="gtk-cancel"/>
-		       <button name="do_draft" states="open" string="Draft" type="object" icon="gtk-indent"/>
-		       <button name="do_open" states="pending,draft" string="Start Task" type="object" icon="gtk-media-play"/>
- 		</group>
+		    <group col="11" colspan="4">
+	            <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"pending":"blue"}' select="1"/>
+	            <button name="do_cancel" states="draft,open,pending" string="Cancel" type="object" icon="gtk-cancel"/>
+        	    <button name="do_draft" states="open" string="Draft" type="object" icon="gtk-indent"/>
+	            <button name="do_open" states="pending,draft" string="Start Task" type="object" icon="gtk-media-play"/>
+ 		    </group>
 		</form>					
 	</field>
     </record>
@@ -129,20 +115,22 @@
         <field name="view_mode">tree,form</field>        
     </record>
        
-    <!-- latinux tareas objetivos -->
+    <!-- ########## -->
+    <!-- lt targets -->
+    <!-- ########## -->
     
     <record model="ir.ui.view" id="lt_target_tree_view">
 		<field name="name">lt.target.tree</field>
 		<field name="model">lt.target</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		  <tree string="lt target">
-		        <field name="name" select="1"/>			
+		<tree string="lt target">
+		    <field name="name" select="1"/>			
 			<field name="task_ids" invisible="1"/>
 			<field name="partner_id" string="Customer"/>	
 			<field name="description" invisible="1"/>
-			<field name="progress" />
-		    </tree>
+			<field name="progress"/>
+		</tree>
 		</field>
     </record>    
     
@@ -151,21 +139,21 @@
 		<field name="model">lt.target</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-	       	    <form string="lt target" >
-	       	    	<field name="name" select="1" colspan="3"/>
+	       	<form string="lt target" >
+                <field name="name" select="1" colspan="3"/>
 		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)"/>
 		        <field name="location"/>
 		        <field name="description" />		
-			<field name="task_ids" invisible="0" readonly="1" nolabel="1" >
-				<tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
-                       			<field name="date_create"/>
-                       			<field name="name" />	                       			
-                       			<field name="date_deadline"/>
-                       			<field name="state"/>
-                       		</tree>
-	                </field>
-	                <field name="progress" widget="progressbar" colspan="2"/>
-                       	</form>
+			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" >
+				    <tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
+                       	<field name="date_create"/>
+                       	<field name="name" />	                       			
+                       	<field name="date_deadline"/>
+                        <field name="state"/>
+                	</tree>
+	            </field>
+	            <field name="progress" widget="progressbar" colspan="2"/>
+           	</form>
 		</field>
     </record>
     
@@ -178,7 +166,9 @@
         <field name='view_mode'>tree,form</field>
     </record>
     
+    <!-- #### -->
     <!-- MENU -->
+    <!-- #### -->
     
     <menuitem id="lt_tarea_menu" sequence="10" name="LainuxTareas"/>
     <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="Latinux Tarea"/>
