@@ -12,9 +12,8 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources">   	 		  
-    	        <field name="name" on_change="onchange_set_price(name)"/>
-                <field name="quantity" on_change="onchange_set_price(name,quantity)"/>
-                <!--                <field name="state"/>-->
+    	        <field name="name" on_change="onchange_set_price(id,product_id,quantity)"/>
+                <field name="quantity" on_change="onchange_set_price(id,product_id,quantity)"/>
 			</form>
 		</field>
     </record>
@@ -25,8 +24,8 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="LT Resources tree">
-   	 		    <field name="name" widget='selection'/> <!--on_change="onchange_name(name)"-->
-			    <field name="quantity"/>
+   	 		    <field name="name" widget='selection' on_change="onchange_set_price(id,product_id,quantity)"/>
+			    <field name="quantity" on_change="onchange_set_price(id,product_id,quantity)"/>
                 <field name="resource_price"/>
 			</tree>
 		</field>
@@ -89,8 +88,8 @@
 	        <page string="Recursos">
 	            <field name="resource_ids" nolabel="1" colspan="4">
 	              	<tree string="Resource lines" editable="bottom">
-	                    <field name="name" on_change="onchange_set_price(name)"/>
-                        <field name="quantity" on_change="onchange_set_price(name,quantity)"/>
+	                    <field name="name" on_change="onchange_set_price(id,name,quantity)"/>
+                        <field name="quantity" on_change="onchange_set_price(id,name,quantity)"/>
                         <field name="resource_price"/>
 	                </tree>
 	            </field>

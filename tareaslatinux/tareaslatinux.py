@@ -66,27 +66,36 @@ lt_tarea()
 class lt_recurso(osv.osv):
     """ recursos usados en una tarea """
 
+    def _get_resource_price(self, cr, uid, ids, res_id=False, product_id=False, quantity=1.0, context={}):
+        #print "begin onchange_set_price",product_id, quantity
+        products = self.pool.get('product.product')
+        resources = self.pool.get('lt.recurso')
+        if not product_id:
+            lt_res = resources.browse(cr, uid, ids)
+            res = {}
+            for r in lt_res:
+                product = products.browse(cr, uid, r.name.id)
+                standard_price = product.product_tmpl_id.standard_price
+                res[r.id] = standard_price*r.quantity
+        else:
+            print "entra else"
+            lt_res = resources.browse(cr,uid,res_id)
+            product = products.browse(cr,uid,product_id)
+            standard_price = product.product_tmpl_id.standard_price
+            res = { lt_res.id: standard_price*quantity }
+        return res
+
     _name = 'lt.recurso'
     _columns = {
  	            'name': fields.many2one('product.product', 'Product', required=True),
      	        'task_id': fields.many2one('lt.tarea', 'Task', ondelete='cascade', select=True),
  	            'quantity': fields.integer('Quantity'),
-                'resource_price': fields.float('Price'),
+                'resource_price': fields.function(_get_resource_price, string='Price', type='float'),
                }
 
     _defaults = {
-                 'quantity': lambda *a :1,
+                 'quantity': lambda *a :1.0,
                 }
-
-    def onchange_set_price(self, cr, uid, ids, product_id, quantity=1.0, context={}):
-        print "begin onchange_set_price",product_id, quantity
-        product = self.pool.get('product.product').browse(cr, uid, product_id)
-        print "standard_price:", product.product_tmpl_id.standard_price, "list_price:", product.product_tmpl_id.list_price
-        print "price_extra:", product.price_extra, "price_margin:", product.price_margin
-        print "cost_method:", product.product_tmpl_id.cost_method
-
-
-        return True
 
     _sql_constraints = [
                         ('resource_uniq','unique(name,task_id)',
@@ -94,6 +103,12 @@ class lt_recurso(osv.osv):
                          SUGERENCIA: hay un recurso ya ha sido agregado, solo modifique su cantidad"""
                         ),
                        ]
+
+    def onchange_set_price(self, cr, uid, rid, pid, qty, context={}):
+        print "entra onchange_set_price", id
+        #res = self._get_resource_price(self, cr, uid, res_id=rid, product_id=pid, quantity=qty, context=context)
+#        return res
+        return True
 
     #def onchange_name(self,cr,uid,ids,prod_id,tid,context={}):
     #	print "entra"
@@ -108,10 +123,6 @@ class lt_recurso(osv.osv):
     	#	res[obj.id]={'state':'done'}
 #    	task=self.pool.get('latinuxtarea.tarea').read(cr,uid,this.task_id,context=context)
     	#return res
-
-    def accion(self, cr, uid, ids, context={}):
-    	#this=self.browse(cr,uid,ids,context=context)[0]
-        return True
 
 lt_recurso()
 
@@ -152,12 +163,11 @@ class lt_target(osv.osv):
         addresses = self.pool.get('res.partner.address')
         location = 'sin definir'
         if addresses:
-    	    address_id = addresses.search(cr, uid, [('partner_id', '=', partner_id)])
-    	    address = addresses.browse(cr, uid, address_id)[0]
+            address_id = addresses.search(cr, uid, [('partner_id', '=', partner_id)])
+            address = addresses.browse(cr, uid, address_id)[0]
             una_lista = [(str(address.city) or ''), (str(address.state_id.name) or ''), (str(address.country_id.name) or '')]
             coma = ", "
             location = coma.join(una_lista)
-
-	return {'value': {'location': location}}
+        return {'value': {'location': location}}
 
 lt_target()
