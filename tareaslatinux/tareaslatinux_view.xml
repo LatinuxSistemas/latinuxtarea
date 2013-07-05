@@ -12,8 +12,9 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 			<form string="LT Resources">   	 		  
-    	        <field name="name" on_change="onchange_set_price(id,product_id,quantity)"/>
-                <field name="quantity" on_change="onchange_set_price(id,product_id,quantity)"/>
+    	        <field name="name" on_change="name_change(name,quantity)"/>
+                <!--                <button name="onchange_name" type="object" string="boton"/>-->
+                <field name="quantity" on_change="name_change(name,quantity)"/>
 			</form>
 		</field>
     </record>
@@ -24,8 +25,8 @@
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 			<tree string="LT Resources tree">
-   	 		    <field name="name" widget='selection' on_change="onchange_set_price(id,product_id,quantity)"/>
-			    <field name="quantity" on_change="onchange_set_price(id,product_id,quantity)"/>
+   	 		    <field name="name"/>
+			    <field name="quantity"/>
                 <field name="resource_price"/>
 			</tree>
 		</field>
@@ -87,9 +88,9 @@
 		<notebook colspan="4">
 	        <page string="Recursos">
 	            <field name="resource_ids" nolabel="1" colspan="4">
-	              	<tree string="Resource lines" editable="bottom">
-	                    <field name="name" on_change="onchange_set_price(id,name,quantity)"/>
-                        <field name="quantity" on_change="onchange_set_price(id,name,quantity)"/>
+	              	<tree string="Resource lines">
+	                    <field name="name"/>
+                        <field name="quantity"/>
                         <field name="resource_price"/>
 	                </tree>
 	            </field>
@@ -169,7 +170,7 @@
     <!-- MENU -->
     <!-- #### -->
     
-    <menuitem id="lt_tarea_menu" sequence="10" name="LainuxTareas"/>
+    <menuitem id="lt_tarea_menu" sequence="10" name="LatinuxTareas"/>
     <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="Latinux Tarea"/>
     <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="Latinux Obj"/>
     <menuitem id='lt_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
