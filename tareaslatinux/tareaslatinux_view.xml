@@ -84,6 +84,7 @@
 			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}"/>
 			 <field colspan="4" name="description" nolabel="1"  attrs="{'readonly':[('state','=','done')]}" widget="text_wiki"/>
 			 <field name="target_id"/>
+             <field name="tarea_amount_total"/>
 		</group>
 		<notebook colspan="4">
 	        <page string="Recursos">
@@ -161,7 +162,7 @@
         <field name='name'>Latinux Objetivos</field>
         <field name='type'>ir.actions.act_window</field>
         <field name='res_model'>lt.target</field>
-        <field name="domain">[('partner_id.customer','=',True)]</field>
+        <!--<field name="domain">[('partner_id.customer','=',True)]</field>-->
         <field name='view_type'>form</field>
         <field name='view_mode'>tree,form</field>
     </record>

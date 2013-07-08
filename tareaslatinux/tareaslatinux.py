@@ -25,6 +25,16 @@ from openerp.osv import osv,fields
 class lt_tarea(osv.osv):
     """ latinuxtarea """
 
+    def _get_amount_total(self, cr, uid, ids, fields, args, context):
+        #print ids
+        this_task = self.browse(cr, uid, ids)[0]
+#        for this_task in tasks:
+        res= {this_task.id: 0.0}
+        if this_task.resource_ids:
+            for resource in this_task.resource_ids:
+                res[this_task.id] += resource.resource_price
+        return res
+
     _name = 'lt.tarea'
     _columns = {
         'user_id': fields.many2one('res.users', 'Creator', required=True, readonly=True),
@@ -34,6 +44,7 @@ class lt_tarea(osv.osv):
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
+        'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total', type='float', readonly=True),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -48,6 +59,7 @@ class lt_tarea(osv.osv):
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
         'date_create': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'tarea_amount_total': 0.0
     }
 
     _order = 'date_create desc'
@@ -82,7 +94,7 @@ class lt_recurso(osv.osv):
         'name': fields.many2one('product.product', 'Product', required=True),
      	'task_id': fields.many2one('lt.tarea', 'Task', ondelete='cascade', select=True),
  	    'quantity': fields.integer('Quantity', required=True),
-        'resource_price': fields.function(_get_resource_price, string='Price', type='float', method=True, store=True),
+        'resource_price': fields.function(_get_resource_price, string='Price', type='float', method=True, store=True, digits=(4,2)),
     }
 
     _defaults = {
@@ -90,9 +102,11 @@ class lt_recurso(osv.osv):
     }
 
     def name_change(self, cr, uid, ids, prodid, qty, context={}):
-        product = self.pool.get('product.product').browse(cr, uid, prodid)
-        standard_price = product.product_tmpl_id.standard_price
-        data = {'resource_price': standard_price*qty}
+        data = {}
+        if prodid:
+            product = self.pool.get('product.product').browse(cr, uid, prodid)
+            standard_price = product.product_tmpl_id.standard_price
+            data = {'resource_price': standard_price*qty}
         return {'value': data}
 
 lt_recurso()
