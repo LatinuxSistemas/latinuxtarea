@@ -76,7 +76,7 @@
 		<field name="priority">2</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-		<form string="Latinux Tarea">
+		<form string="LT Tarea">
 		<group>
 			 <field name="user_id"/>
 			 <field name="name" string="Task Name"/>
@@ -87,7 +87,7 @@
              <field name="tarea_amount_total"/>
 		</group>
 		<notebook colspan="4">
-	        <page string="Recursos">
+	        <page string="LT Recursos">
 	            <field name="resource_ids" nolabel="1" colspan="4">
 	              	<tree string="Resource lines">
 	                    <field name="name"/>
@@ -103,13 +103,14 @@
 	            <button name="do_cancel" states="draft,open,pending" string="Cancel" type="object" icon="gtk-cancel"/>
         	    <button name="do_draft" states="open" string="Draft" type="object" icon="gtk-indent"/>
 	            <button name="do_open" states="pending,draft" string="Start Task" type="object" icon="gtk-media-play"/>
+	            <button name="do_done" states="open,pending" string="Finish Task" type="object" icon="gtk-media-play"/>
  		    </group>
 		</form>					
 	</field>
     </record>
 
     <record model="ir.actions.act_window" id="action_lt_tarea_tree">
-        <field name="name">LatinuxTarea Tarea</field>
+        <field name="name">LT Tarea</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">lt.tarea</field>
         <field name="view_type">form</field>
@@ -125,7 +126,7 @@
 		<field name="model">lt.target</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		<tree string="lt target">
+		<tree string="LT Target">
 		    <field name="name" select="1"/>			
 			<field name="task_ids" invisible="1"/>
 			<field name="partner_id" string="Customer"/>	
@@ -140,7 +141,7 @@
 		<field name="model">lt.target</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-	       	<form string="lt target" >
+	       	<form string="LT Target" >
                 <field name="name" select="1" colspan="3"/>
 		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)"/>
 		        <field name="location"/>
@@ -159,7 +160,7 @@
     </record>
     
     <record model='ir.actions.act_window' id='action_lt_target_tree'>
-        <field name='name'>Latinux Objetivos</field>
+        <field name='name'>LT Objetivos</field>
         <field name='type'>ir.actions.act_window</field>
         <field name='res_model'>lt.target</field>
         <!--<field name="domain">[('partner_id.customer','=',True)]</field>-->
@@ -174,8 +175,8 @@
     <menuitem id="lt_tarea_menu" sequence="10" name="LatinuxTareas"/>
     <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="Latinux Tarea"/>
     <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="Latinux Obj"/>
-    <menuitem id='lt_tarea_menu_3' sequence='1' name='Latinux Objetivos' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
-    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="Latinux Tarea"/>
+    <menuitem id='lt_tarea_menu_3' sequence='1' name='LT Objetivos' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
+    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="LT Tarea"/>
 
 </data>
 </openerp>

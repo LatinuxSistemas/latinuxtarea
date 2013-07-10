@@ -44,7 +44,7 @@ class lt_tarea(osv.osv):
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
-        'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total', type='float', readonly=True),
+        'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total ($)', type='float', readonly=True, store=True),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -55,14 +55,22 @@ class lt_tarea(osv.osv):
                                  ),
     }
 
+#    def _get_amount_default(self, cr, uid, ids, context={}):
+#        return 0.0
+
     _defaults = {
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
         'date_create': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        'tarea_amount_total': 0.0
+#        'tarea_amount_total': _get_amount_default
     }
 
     _order = 'date_create desc'
+
+    def do_done(self, cr, uid, ids, context={}):
+        data = {'state': 'done'}
+        self.write(cr, uid, ids, data, context=context)
+        return True
 
     def do_open(self, cr, uid, ids, context={}):
         data = {'state': 'open'}
@@ -70,7 +78,8 @@ class lt_tarea(osv.osv):
         return True
 
     def do_draft(self, cr, uid, ids, context={}):
-        self.write(cr, uid, ids, {'state': 'draft'}, context=context)
+        data = {'state': 'draft'}
+        self.write(cr, uid, ids, data, context=context)
         return True
 
 lt_tarea()
@@ -92,8 +101,8 @@ class lt_recurso(osv.osv):
     _name = 'lt.recurso'
     _columns = {
         'name': fields.many2one('product.product', 'Product', required=True),
-     	'task_id': fields.many2one('lt.tarea', 'Task', ondelete='cascade', select=True),
- 	    'quantity': fields.integer('Quantity', required=True),
+        'task_id': fields.many2one('lt.tarea', 'Task', ondelete='cascade', select=True),
+        'quantity': fields.integer('Quantity', required=True),
         'resource_price': fields.function(_get_resource_price, string='Price', type='float', method=True, store=True, digits=(4,2)),
     }
 
