@@ -44,6 +44,9 @@ class lt_task_report_wizard(osv.osv_memory):
         res = { 'report_file': new_name }
         return res
 
+    def _get_min_and_max_dates(self, cr, uid, ids, context={}):
+        pass
+
     def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
@@ -54,6 +57,10 @@ class lt_task_report_wizard(osv.osv_memory):
         tasks = self.pool.get('lt.tarea')
         targids = targs.search(cr,uid,[])
         targets = targs.browse(cr,uid,targids)
+        if not this.date_min:
+            this.date_min = self._get_min_and_max_dates()[0]
+        if not this.date_max:
+            this.date_min = self._get_min_and_max_dates()[1]
 
         ##### HOJA DE REPORTE #####
         for target in targets:
