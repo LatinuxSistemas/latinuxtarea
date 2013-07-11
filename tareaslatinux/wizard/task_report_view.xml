@@ -10,14 +10,16 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form col="10" string="Reporte Tareas">
-                <group col="2" height="15" width="50">
+                <!--                <group col="2" height="15" width="50">-->
                     <field invisible="1" name="state"/>
-                    <field name="name" attrs="{'readonly': [('state', '=', 'fin')]}"/>
-                    <field name="data" states='fin'/>
+                    <field name="report_file" attrs="{'readonly': [('state', '=', 'fin')]}" on_change="onchange_report_file(report_file)"/>
+                    <field name="date_min" states="choose"/>
+                    <field name="date_max" states="choose"/>
+                    <!--                    <field name="data" states='fin'/>-->
                     <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose"/>
                     <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose"/>
                     <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin"/>
-                </group>
+                    <!--                </group>-->
              </form>
         </field>
     </record>
