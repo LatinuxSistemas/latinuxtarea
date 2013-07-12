@@ -14,28 +14,35 @@ class lt_task_report_wizard(osv.osv_memory):
     _name = "lt.task.report.wizard"
     _description = "Crear Reporte de Tareas"
 
+    def _get_min_date(self, cr, uid, ids, context={}):
+        target_obj =  self.pool.get('lt.tarea')
+        target_id = target_obj.search(cr, uid, [], order='date_create')
+        date_min = target_obj.read(cr, uid, [target_id[0]], ['date_create'])[0]['date_create']
+        return date_min
+
+    def _get_max_date(self, cr, uid, ids, context={}):
+        target_obj =  self.pool.get('lt.tarea')
+        target_id = target_obj.search(cr, uid, [], order='date_create')
+        date_max = target_obj.read(cr, uid, [target_id[-1]], ['date_create'])[0]['date_create']
+        return date_max
+
     def default_get(self, cr, uid, ids, fields, context={}):
-#        this = self.browse(cr, uid, ids)
-#        print this
         file1 = os.path.expanduser('~') + '/task_report.csv'
         if not os.path.exists(file1):
             os.system('touch %s' % file1)
         report_file = open(file1, 'rb')
-        res = {'state': 'choose', 'data': base64.encodestring(report_file.read()), 'report_file': file1}
+        res = {'state': 'choose', 'data': base64.encodestring(report_file.read()),
+               'report_file': file1, 'date_min': self._get_min_date(cr, uid, ids),
+               'date_max': self._get_max_date(cr, uid, ids)}
         return res
 
-
     _columns = {
-#            'data': fields.binary('Archivo', readonly=True),
             'report_file': fields.char('Nombre de Reporte', 64, readonly=False),
             'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
             'date_min': fields.date('Fecha desde'),
-            'date_max': fields.date('Fecha hasta')
-    }
-
-    _defaults = {
-            'state': 'choose',
-            'report_file': lambda *a: 'task_report.csv'
+            'date_max': fields.date('Fecha hasta'),
+            'target_ids': fields.many2many('lt.target', 'wiz_target_rel', 'target_id', 'wiz_id',
+                                           'Filtar Objetivos', readonly=False)
     }
 
     def onchange_report_file(self, cr, uid, ids, new_name, context={}):
@@ -44,23 +51,30 @@ class lt_task_report_wizard(osv.osv_memory):
         res = { 'report_file': new_name }
         return res
 
-    def _get_min_and_max_dates(self, cr, uid, ids, context={}):
-        pass
+    def _get_all_targets(self, cr, uid, ids, context={}):
+        targets = self.pool.get('lt.target')
+        tids = targets.search(cr, uid, [])
+        target_obj = targets.browse(cr, uid, tids)
+        return target_obj
 
     def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
         header = 'Reporte Tareas'+';'+ fec_reporte +'\n'*2 + ';'*2 + 'Fecha Tarea' + '\n'
-        this = self.browse(cr,uid,ids)[0]
+        this = self.browse(cr, uid, ids)[0]
         output = header.encode('latin1')
         targs = self.pool.get('lt.target')
         tasks = self.pool.get('lt.tarea')
-        targids = targs.search(cr,uid,[])
-        targets = targs.browse(cr,uid,targids)
+        if not this.target_ids:
+            this.target_ids = self._get_all_targets(cr, uid, ids)
+        tarids = [target.id for target in this.target_ids]
+        print tarids
+        targids = targs.search(cr, uid, [('id', 'in', tarids)])
+        targets = targs.browse(cr, uid, targids)
         if not this.date_min:
-            this.date_min = self._get_min_and_max_dates()[0]
+            this.date_min = self._get_min_date(cr, uid, ids)
         if not this.date_max:
-            this.date_min = self._get_min_and_max_dates()[1]
+            this.date_min = self._get_max_date(cr, uid, ids)
 
         ##### HOJA DE REPORTE #####
         for target in targets:
@@ -76,11 +90,8 @@ class lt_task_report_wizard(osv.osv_memory):
             for task in tasks_filter:
                 cont += task.tarea_amount_total
                 out += ';' + 'Tarea:' + ';' + task.name + ';' + task.date_create + '\n'
-#                i = 1
                 for resource in task.resource_ids:
-#                    out += ';'*2 + 'Recurso %i:'%i + ';' + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
                     out += ';'*2 + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
-#                    i += 1
             out += ';' + 'Total:' + ';'*3 + '$' + str(cont) + '\n'*2
 
             try:
@@ -91,20 +102,10 @@ class lt_task_report_wizard(osv.osv_memory):
             except UnicodeEncodeError:
                 logger.warn("""Problemas con caracteres ascii en el objetivo (id: %i),
                                esta linea del reporte se pasa por alto!""" % target.id, exc_info=1)
-#        try:
-#            salida = base64.encodestring(output)
-#        except UnicodeEncodeError:
-#            logger.warn("Error en el reporte, se deja sin completar!", exc_info=1)
-#            salida = ''
-#        print this.report_file
+
         with open(this.report_file, 'w') as report:
             report.write(output)
-
-        #dicc = {'state':'fin', 'data': this.report_file, 'report_file': this.report_file}
         dicc = {'state':'fin'}
- #       return self.write(cr, uid, ids, {'state':'fin', 'data': salida, 'name': this.name}, context=context )
         return self.write(cr, uid, ids, dicc, context=context)
-#        print dicc
-#        return {'value': dicc}
 
 lt_task_report_wizard()

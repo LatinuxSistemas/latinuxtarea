@@ -148,7 +148,7 @@ class lt_target(osv.osv):
        'description': fields.text('Description'),# readonly=True, states={('draft','open','pending'): [('readonly', False)]}),
        'partner_id': fields.many2one('res.partner', 'Partner', required=True),
        'location': fields.char('Ubicación', size=150, required=False),
-       'progress': fields.function(_get_progress_status, string='Progress State', type='float', digits=(4,2)),
+       'progress': fields.function(_get_progress_status, string='Progress State(%)', type='float', digits=(4,2)),
     }
 
     def onchange_partner(self, cr, uid, ids, partner_id, context={}):

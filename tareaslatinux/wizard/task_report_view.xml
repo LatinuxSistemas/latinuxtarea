@@ -10,16 +10,22 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form col="10" string="Reporte Tareas">
-                <!--                <group col="2" height="15" width="50">-->
                     <field invisible="1" name="state"/>
                     <field name="report_file" attrs="{'readonly': [('state', '=', 'fin')]}" on_change="onchange_report_file(report_file)"/>
                     <field name="date_min" states="choose"/>
                     <field name="date_max" states="choose"/>
-                    <!--                    <field name="data" states='fin'/>-->
+                    <newline/>
+                    <field name="target_ids" attrs="{'readonly': [('state', '=', 'fin')]}" colspan="6">
+	              	    <tree string="Filtar Objetivos">
+	                        <field name="name" readonly="1"/>
+                            <field name="description" readonly="1"/>
+                            <field name="progress" readonly="1"/>
+	                    </tree>
+                    </field>
+                    <newline/>
                     <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose"/>
                     <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose"/>
                     <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin"/>
-                    <!--                </group>-->
              </form>
         </field>
     </record>
