@@ -45,6 +45,8 @@ class lt_tarea(osv.osv):
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
         'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total ($)', type='float', readonly=True, store=True),
+        'doc_associated': fields.char('Doc Asociado', size=128, required=False),
+        'requester': fields.char('Solicitada por', size=128, required=False),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -54,9 +56,6 @@ class lt_tarea(osv.osv):
                                   If the task is over, the states is set to \'Done\'."""
                                  ),
     }
-
-#    def _get_amount_default(self, cr, uid, ids, context={}):
-#        return 0.0
 
     _defaults = {
         'state': lambda *a: 'draft',

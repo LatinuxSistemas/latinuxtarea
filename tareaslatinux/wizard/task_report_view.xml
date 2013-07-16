@@ -9,24 +9,25 @@
         <field name="model">lt.task.report.wizard</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form col="10" string="Reporte Tareas">
-                    <field invisible="1" name="state"/>
-                    <field name="report_file" attrs="{'readonly': [('state', '=', 'fin')]}" on_change="onchange_report_file(report_file)"/>
-                    <field name="date_min" states="choose"/>
-                    <field name="date_max" states="choose"/>
-                    <newline/>
-                    <field name="target_ids" attrs="{'readonly': [('state', '=', 'fin')]}" colspan="6">
-	              	    <tree string="Filtar Objetivos">
-	                        <field name="name" readonly="1"/>
-                            <field name="description" readonly="1"/>
-                            <field name="progress" readonly="1"/>
-	                    </tree>
-                    </field>
-                    <newline/>
-                    <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose"/>
-                    <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose"/>
-                    <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin"/>
-             </form>
+            <form col="4" string="Reporte Tareas">
+                <field invisible="1" name="state"/>
+                <field name="report_file" attrs="{'readonly': [('state', '=', 'fin')]}" on_change="onchange_report_file(report_file)" colspan="0"/>
+                <field name="detailed" states="choose"/>
+                <field name="date_min" states="choose" colspan="2"/>
+                <field name="date_max" states="choose" colspan="2"/>
+                <newline/>
+                <field name="target_ids" states="choose" colspan="4">
+	                <tree string="Filtar Objetivos">
+	                    <field name="name" readonly="1"/>
+                        <field name="description" readonly="1"/>
+                        <field name="progress" readonly="1"/>
+	                </tree>
+                </field>
+                <newline/>
+                <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose" colspan="0"/>
+                <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose" colspan="0"/>
+                <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin" colspan="0"/>
+            </form>
         </field>
     </record>
 		

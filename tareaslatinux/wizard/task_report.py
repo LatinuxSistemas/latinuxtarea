@@ -2,15 +2,14 @@
 
 import base64
 import os
+import subprocess
 #import wizard
 from openerp.osv import fields, osv
 import time
 #import openerp.netsvc as netsvc
 import logging
 
-
 class lt_task_report_wizard(osv.osv_memory):
-
     _name = "lt.task.report.wizard"
     _description = "Crear Reporte de Tareas"
 
@@ -33,7 +32,7 @@ class lt_task_report_wizard(osv.osv_memory):
         report_file = open(file1, 'rb')
         res = {'state': 'choose', 'data': base64.encodestring(report_file.read()),
                'report_file': file1, 'date_min': self._get_min_date(cr, uid, ids),
-               'date_max': self._get_max_date(cr, uid, ids)}
+               'date_max': self._get_max_date(cr, uid, ids), 'detailed': False}
         return res
 
     _columns = {
@@ -41,6 +40,7 @@ class lt_task_report_wizard(osv.osv_memory):
             'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
             'date_min': fields.date('Fecha desde'),
             'date_max': fields.date('Fecha hasta'),
+            'detailed': fields.boolean('Imprimir recursos?'),
             'target_ids': fields.many2many('lt.target', 'wiz_target_rel', 'target_id', 'wiz_id',
                                            'Filtar Objetivos', readonly=False)
     }
@@ -57,10 +57,18 @@ class lt_task_report_wizard(osv.osv_memory):
         target_obj = targets.browse(cr, uid, tids)
         return target_obj
 
+    def open_report(self, cr, uid, ids, context={}):
+        partner_obj = self.pool.get('res.partner')
+        partner_ids = partner_obj.search(cr, uid, [])
+
+        this = self.browse(cr, uid, ids)[0]
+        subprocess.Popen([config.path_to_office, this.report_file])
+        pass
+
     def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
-        header = 'Reporte Tareas'+';'+ fec_reporte +'\n'*2 + ';'*2 + 'Fecha Tarea' + '\n'
+        header = 'Reporte Tareas'+';'+ fec_reporte +'\n'*2 + ';'*3 + 'Fecha Tarea' + '\n'
         this = self.browse(cr, uid, ids)[0]
         output = header.encode('latin1')
         targs = self.pool.get('lt.target')
@@ -82,7 +90,8 @@ class lt_task_report_wizard(osv.osv_memory):
             task_ids = tasks.search(cr, uid, ['&', ('date_create', '>=', this.date_min), '&',
                                               ('date_create', '<=', this.date_max),
                                               ('target_id', '=', target.id),
-                                              ])
+                                             ]
+                                   )
             print task_ids
             tasks_filter = tasks.browse(cr, uid, task_ids)
             cont = 0
@@ -90,8 +99,9 @@ class lt_task_report_wizard(osv.osv_memory):
             for task in tasks_filter:
                 cont += task.tarea_amount_total
                 out += ';' + 'Tarea:' + ';' + task.name + ';' + task.date_create + '\n'
-                for resource in task.resource_ids:
-                    out += ';'*2 + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
+                if this.detailed:
+                    for resource in task.resource_ids:
+                        out += ';'*2 + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
             out += ';' + 'Total:' + ';'*3 + '$' + str(cont) + '\n'*2
 
             try:

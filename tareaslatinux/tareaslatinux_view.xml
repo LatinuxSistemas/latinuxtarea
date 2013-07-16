@@ -56,14 +56,16 @@
 		   	    <field name="user_id"/>
                 <field name="date_create"/>
 			    <field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
+                <field name="requester"/>
+                <field name="doc_associated"/>
 			    <field name="description"/>
-			    <button name="next_type" invisible="context.get('set_visible',False)"
+                <!--			    <button name="next_type" invisible="context.get('set_visible',False)"
                         states="draft,open,pending"
                         string="Change Stage"
                         type="object"
                         icon="gtk-go-forward"
                         groups="base.group_extended"
-                        help="Change Type"/>
+                        help="Change Type"/>-->
     			<field name="state"/>
 	    		<button name="do_open" states="pending,draft,done,cancelled" string="Start Task" type="object" icon="gtk-media-play" help="For changing to open state" invisible="context.get('set_visible',False)"/>
 		    </tree>
@@ -82,9 +84,11 @@
 			 <field name="name" string="Task Name"/>
 			 <field name="date_create"/>
 			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}"/>
-			 <field colspan="4" name="description" nolabel="1"  attrs="{'readonly':[('state','=','done')]}" widget="text_wiki"/>
+             <field name="requester"/>
+             <field name="doc_associated"/>
 			 <field name="target_id"/>
              <field name="tarea_amount_total"/>
+			 <field colspan="4" name="description" nolabel="1" attrs="{'readonly':[('state','=','done')]}" widget="text_wiki" rowspan="1"/>
 		</group>
 		<notebook colspan="4">
 	        <page string="LT Recursos">
