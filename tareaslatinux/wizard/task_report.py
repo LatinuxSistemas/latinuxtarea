@@ -48,7 +48,7 @@ class lt_task_report_wizard(osv.osv_memory):
     def onchange_report_file(self, cr, uid, ids, new_name, context={}):
         if not os.path.exists(new_name):
             os.system('touch %s' % new_name)
-        res = { 'report_file': new_name }
+        res = {'report_file': new_name}
         return res
 
     def _get_all_targets(self, cr, uid, ids, context={}):
@@ -58,12 +58,11 @@ class lt_task_report_wizard(osv.osv_memory):
         return target_obj
 
     def open_report(self, cr, uid, ids, context={}):
-        partner_obj = self.pool.get('res.partner')
-        partner_ids = partner_obj.search(cr, uid, [])
-
+        user = self.pool.get('res.users').browse(cr, uid, [uid])[0]
+        executable = user.company_id.path_to_office
         this = self.browse(cr, uid, ids)[0]
-        subprocess.Popen([config.path_to_office, this.report_file])
-        pass
+        subprocess.Popen([executable, this.report_file])
+        return True
 
     def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)

@@ -26,6 +26,7 @@
                 <newline/>
                 <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose" colspan="0"/>
                 <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose" colspan="0"/>
+                <button type="object" name="open_report" icon="gtk-go-forward" string="Abrir Reporte" states="fin" colspan="0"/>
                 <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin" colspan="0"/>
             </form>
         </field>

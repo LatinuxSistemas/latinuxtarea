@@ -21,4 +21,4 @@
 
 import tareaslatinux
 import wizard
-
+import res_company
