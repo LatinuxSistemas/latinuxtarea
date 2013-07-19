@@ -11,23 +11,26 @@
         <field name="arch" type="xml">
             <form col="4" string="Reporte Tareas">
                 <field invisible="1" name="state"/>
-                <field name="report_file" attrs="{'readonly': [('state', '=', 'fin')]}" on_change="onchange_report_file(report_file)" colspan="0"/>
-                <field name="detailed" states="choose"/>
-                <field name="date_min" states="choose" colspan="2"/>
-                <field name="date_max" states="choose" colspan="2"/>
-                <newline/>
-                <field name="target_ids" states="choose" colspan="4">
-	                <tree string="Filtar Objetivos">
-	                    <field name="name" readonly="1"/>
-                        <field name="description" readonly="1"/>
-                        <field name="progress" readonly="1"/>
-	                </tree>
-                </field>
-                <newline/>
-                <button special="cancel" icon="gtk-cancel" string="Cancelar" states="choose" colspan="0"/>
-                <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" states="choose" colspan="0"/>
-                <button type="object" name="open_report" icon="gtk-go-forward" string="Abrir Reporte" states="fin" colspan="0"/>
-                <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" states="fin" colspan="0"/>
+                <group states='choose' col="4">
+                    <field name="report_file" colspan="1"/>
+                    <field name="detailed" colspan="1"/>
+                    <field name="date_min" colspan="1"/>
+                    <field name="date_max" colspan="1"/>
+                    <newline/>
+                    <field name="target_ids" colspan="4">
+	                    <tree string="Filtar Objetivos">
+	                        <field name="name" readonly="1"/>
+                            <field name="description" readonly="1"/>
+                            <field name="progress" readonly="1"/>
+    	                </tree>
+                    </field>
+                    <button special="cancel" icon="gtk-cancel" string="Cancelar" colspan="1"/>
+                    <button type="object" name="create_task_report" icon="gtk-go-forward" string="Crear" colspan="1"/>
+                </group>
+                <group states='fin' col="4">
+                    <field name="data" filename="report_file" colspan="1"/>
+                    <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" colspan="1"/>
+                </group>
             </form>
         </field>
     </record>

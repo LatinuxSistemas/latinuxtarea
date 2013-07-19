@@ -26,9 +26,7 @@ class lt_tarea(osv.osv):
     """ latinuxtarea """
 
     def _get_amount_total(self, cr, uid, ids, fields, args, context):
-        #print ids
         this_task = self.browse(cr, uid, ids)[0]
-#        for this_task in tasks:
         res= {this_task.id: 0.0}
         if this_task.resource_ids:
             for resource in this_task.resource_ids:
@@ -45,8 +43,8 @@ class lt_tarea(osv.osv):
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
         'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total ($)', type='float', readonly=True, store=True),
-        'doc_associated': fields.char('Doc Asociado', size=128, required=False),
-        'requester': fields.char('Solicitada por', size=128, required=False),
+        'reference': fields.char('Doc Asociado', size=128, required=False),
+        'order_by': fields.char('Solicitada por', size=128, required=False),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -61,7 +59,6 @@ class lt_tarea(osv.osv):
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
         'date_create': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-#        'tarea_amount_total': _get_amount_default
     }
 
     _order = 'date_create desc'
@@ -144,7 +141,7 @@ class lt_target(osv.osv):
     _columns = {
        'name': fields.char('Name', size=64, required=True),
        'task_ids': fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
-       'description': fields.text('Description'),# readonly=True, states={('draft','open','pending'): [('readonly', False)]}),
+       'description': fields.text('Description'),
        'partner_id': fields.many2one('res.partner', 'Partner', required=True),
        'location': fields.char('Ubicación', size=150, required=False),
        'progress': fields.function(_get_progress_status, string='Progress State(%)', type='float', digits=(4,2)),
