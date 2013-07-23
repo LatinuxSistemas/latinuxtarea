@@ -73,6 +73,11 @@ class lt_tarea(osv.osv):
         self.write(cr, uid, ids, data, context=context)
         return True
 
+    def do_cancel(self, cr, uid, ids, context={}):
+        data = {'state': 'cancelled'}
+        self.write(cr, uid, ids, data, context=context)
+        return True
+
     def do_draft(self, cr, uid, ids, context={}):
         data = {'state': 'draft'}
         self.write(cr, uid, ids, data, context=context)

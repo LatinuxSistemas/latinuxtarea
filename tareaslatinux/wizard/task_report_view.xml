@@ -31,15 +31,8 @@
         <field name="view_type">form</field>
 	    <field name="view_id" ref="view_task_report_wizard"/>
         <field name="target">new</field>
+        <!--        <shortcut name="reporte" model='lt.tarea'/>-->
     </record>
 
-    <!--  =========== MENU ITEMS =========== -->
-    <!--    <menuitem id="menu_report_task_1" 
-              name="Reporte Tareas"
-              action="action_report_task_1"
-              parent="lt_tarea_menu_4"
-              sequence="1000" 
-              icon="STOCK_PRINT"/>
--->
 </data>
 </openerp>

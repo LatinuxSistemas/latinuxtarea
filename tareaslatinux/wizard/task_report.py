@@ -18,46 +18,21 @@ class lt_task_report_wizard(osv.osv_memory):
     _columns = {
             'report_file': fields.char('Nombre de Reporte', 64, readonly=False),
             'data': fields.binary('Reporte', readonly=True),
+            'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
     }
 
-    def create_task_report(self, cr, uid, ids, task_id, context={}):
+    def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
         header = 'Reporte Tareas'+';'+ fec_reporte +'\n'*2
-        this = self.browse(cr, uid, ids)[0]
         output = header.encode('latin1')
-#        targs = self.pool.get('lt.target')
-        task = self.pool.get('lt.tarea').browse(cr, uid, [task_id])
-#        if not this.target_ids:
-#            tids = targs.search(cr, uid, [])
-#            targets = targs.browse(cr, uid, tids)
-#        else:
-#            tarids = [target.id for target in this.target_ids]
-#            targids = targs.search(cr, uid, [('id', 'in', tarids)])
-#            targets = targs.browse(cr, uid, targids)
-#        if not this.date_min:
-#            this.date_min = self._get_min_date(cr, uid, ids)
-#        if not this.date_max:
-#            this.date_min = self._get_max_date(cr, uid, ids)
-
-        ##### HOJA DE REPORTE #####
-#        for target in targets:
-        #out = ('Nombre objetivo:' + ';' + target.name + '\n'+ ';' + 'Nombre Tarea' + ';'
-#            + 'Fecha Tarea' + ';' + 'Pedida por' + ';' + 'Doc. Ref.' + '\n')
-#            task_ids = tasks.search(cr, uid, ['&', ('date_create', '>=', this.date_min), '&',
-#                                              ('date_create', '<=', this.date_max),
-#                                              ('target_id', '=', target.id),
-#                                             ]
-#                                   )
-#            tasks_filter = tasks.browse(cr, uid, task_ids)
-#            cont = 0
-
-#        cont += task.tarea_amount_total
+        this = self.browse(cr, uid, ids)[0]
+        task = self.pool.get('lt.tarea').browse(cr, uid, context['active_ids'])[0]
         out = (';' + task.name + ';' + task.date_create + ';' + (task.order_by or '')
                 + ';' + (task.reference or '') + '\n')
         out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
         for resource in task.resource_ids:
-            out += ';'*2 + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
+            out += ';'*2 + resource.name.name_template + ';' + str(resource.quantity) + '\n'
         out += ';' + 'Total Tarea:' + ';'*5 + '$' + str(task.tarea_amount_total) + '\n'*2
 
         try:
