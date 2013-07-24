@@ -37,8 +37,8 @@ class lt_tarea(osv.osv):
     _columns = {
         'user_id': fields.many2one('res.users', 'Creator', required=True, readonly=True),
         'name': fields.char('Task Name', size=128, required=True, select=True),
-        'date_create': fields.date('Create Date', select=True),
-        'date_deadline': fields.date('Deadline', select=True),
+        'date': fields.datetime('Create Date', select=True),
+        'date_deadline': fields.datetime('Deadline', select=True, required=True),
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
@@ -58,10 +58,10 @@ class lt_tarea(osv.osv):
     _defaults = {
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
-        'date_create': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
     }
 
-    _order = 'date_create desc'
+    _order = 'date desc'
 
     def do_done(self, cr, uid, ids, context={}):
         data = {'state': 'done'}

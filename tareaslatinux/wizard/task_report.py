@@ -28,7 +28,7 @@ class lt_task_report_wizard(osv.osv_memory):
         output = header.encode('latin1')
         this = self.browse(cr, uid, ids)[0]
         task = self.pool.get('lt.tarea').browse(cr, uid, context['active_ids'])[0]
-        out = (';' + task.name + ';' + task.date_create + ';' + (task.order_by or '')
+        out = (';' + task.name + ';' + task.date + ';' + (task.order_by or '')
                 + ';' + (task.reference or '') + '\n')
         out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
         for resource in task.resource_ids:
