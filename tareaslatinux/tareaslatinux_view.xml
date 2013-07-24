@@ -45,6 +45,19 @@
     <!-- lt tareas -->
     <!-- ######### -->
 
+    <record model="ir.ui.view" id="lt_tarea_calendar_view">
+		<field name="name">lt.tarea.calendar</field>
+		<field name="model">lt.tarea</field>
+        <field name="type">calendar</field>
+        <field name="priority" eval="2"/>
+		<field name="arch" type="xml">
+            <calendar string="LT Tarea" color="target_id" day_length="12" date_stop="date_deadline" date_start="date">
+                <field name="name"/>
+			    <field name="description"/>
+            </calendar>
+	    </field>
+    </record>
+
     <record model="ir.ui.view" id="lt_tarea_tree_view">
 		<field name="name">lt.tarea.tree</field>
 		<field name="model">lt.tarea</field>
@@ -105,19 +118,6 @@
  		    </group>
 		</form>					
 	</field>
-    </record>
-
-    <record model="ir.ui.view" id="lt_task_calendar_view">
-		<field name="name">lt.task.calendar</field>
-		<field name="model">lt.task</field>
-        <field name="type">calendar</field>
-        <field name="priority" eval="2"/>
-		<field name="arch" type="xml">
-            <calendar string="LT Task" color="state" day_length="12" date_stop="date_deadline" date_start="date">
-                <field name="name"/>
-			    <field name="description"/>
-            </calendar>
-	    </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_lt_tarea_tree">
