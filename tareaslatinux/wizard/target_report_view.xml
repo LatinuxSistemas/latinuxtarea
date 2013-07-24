@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+<data>
+
+    <!--  =========== VIEWS =========== -->
+    <record model="ir.ui.view" id="view_target_report_wizard">
+        <field name="name">Report</field>
+        <field name="model">lt.target.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form col="4" string="Reporte Tareas">
+                <field invisible="1" name="state"/>
+                <group states='choose' col="4">
+                    <field name="report_file" colspan="1"/>
+                    <field name="detailed" colspan="1"/>
+                    <field name="date_min" colspan="1"/>
+                    <field name="date_max" colspan="1"/>
+                    <newline/>
+                    <field name="target_ids" colspan="4">
+	                    <tree string="Filtar Objetivos">
+	                        <field name="name" readonly="1"/>
+                            <field name="description" readonly="1"/>
+                            <field name="progress" readonly="1"/>
+    	                </tree>
+                    </field>
+                    <button special="cancel" icon="gtk-cancel" string="Cancelar" colspan="1"/>
+                    <button type="object" name="create_target_report" icon="gtk-go-forward" string="Crear" colspan="1"/>
+                </group>
+                <group states='fin' col="4">
+                    <field name="data" filename="report_file" colspan="1"/>
+                    <button special="cancel" icon="gtk-ok" string="Cerrar Asistente" colspan="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+		
+	<!--  =========== ACTIONS =========== -->   
+    <record model="ir.actions.act_window" id="action_report_target_1">
+        <field name="name">Report</field>
+        <field name="res_model">lt.target.report.wizard</field>
+        <field name="view_type">form</field>
+	    <field name="view_id" ref="view_target_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <!--  =========== MENU ITEMS =========== -->
+    <menuitem id="menu_report_target_1" 
+              name="Reporte Tareas"
+              action="action_report_target_1"
+              parent="lt_tarea_menu_4"
+              sequence="1000" 
+              icon="STOCK_PRINT"/>
+
+</data>
+</openerp>
