@@ -16,7 +16,7 @@ class lt_target_report_wizard(osv.osv_memory):
         if target_id:
             date_min = target_obj.read(cr, uid, [target_id[0]], ['date'])[0]['date']
         else:
-            date_min = time.strftime("%d/%m/%Y")
+            date_min = time.strftime("%Y-%m-%d %H:%M:%S")
         return date_min
 
     def _get_max_date(self, cr, uid, ids, context={}):
@@ -25,7 +25,7 @@ class lt_target_report_wizard(osv.osv_memory):
         if target_id:
             date_max = target_obj.read(cr, uid, [target_id[-1]], ['date'])[0]['date']
         else:
-            date_max = time.strftime("%d/%m/%Y")
+            date_max = time.strftime("%Y-%m-%d %H:%M:%S")
         return date_max
 
     def default_get(self, cr, uid, ids, fields, context={}):
