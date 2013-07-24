@@ -159,7 +159,7 @@
 		        <field name="description" />		
 			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" >
 				    <tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
-                       	<field name="date_create"/>
+                       	<field name="date"/>
                        	<field name="name" />	                       			
                        	<field name="date_deadline"/>
                         <field name="state"/>

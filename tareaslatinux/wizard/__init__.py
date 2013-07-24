@@ -18,5 +18,5 @@
 #
 ########################################################################################
 
-import task_report
 import target_report
+import task_report

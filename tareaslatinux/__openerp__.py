@@ -31,8 +31,8 @@ Una primera versión de módulo para manejar tareas en Latinux
     'website': '',
     'depends': ['base','product'],
     'data': [
-        'tareaslatinux_view.xml',
         'wizard/task_report_view.xml',
+        'tareaslatinux_view.xml',
         'wizard/target_report_view.xml',
     ],
     'demo': [],

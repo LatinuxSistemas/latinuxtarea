@@ -1,9 +1,9 @@
 # -*- coding: latin1 -*-
 
 import base64
+import time
 
 from openerp.osv import fields, osv
-import time
 import logging
 
 class lt_target_report_wizard(osv.osv_memory):
@@ -13,13 +13,19 @@ class lt_target_report_wizard(osv.osv_memory):
     def _get_min_date(self, cr, uid, ids, context={}):
         target_obj =  self.pool.get('lt.tarea')
         target_id = target_obj.search(cr, uid, [], order='date')
-        date_min = target_obj.read(cr, uid, [target_id[0]], ['date'])[0]['date']
+        if target_id:
+            date_min = target_obj.read(cr, uid, [target_id[0]], ['date'])[0]['date']
+        else:
+            date_min = time.time()
         return date_min
 
     def _get_max_date(self, cr, uid, ids, context={}):
         target_obj =  self.pool.get('lt.tarea')
         target_id = target_obj.search(cr, uid, [], order='date')
-        date_max = target_obj.read(cr, uid, [target_id[-1]], ['date'])[0]['date']
+        if target_id:
+            date_max = target_obj.read(cr, uid, [target_id[-1]], ['date'])[0]['date']
+        else:
+            date_max = time.time()
         return date_max
 
     def default_get(self, cr, uid, ids, fields, context={}):
