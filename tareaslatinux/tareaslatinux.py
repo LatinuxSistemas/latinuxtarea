@@ -38,13 +38,16 @@ class lt_tarea(osv.osv):
         'user_id': fields.many2one('res.users', 'Creator', required=True, readonly=True),
         'name': fields.char('Task Name', size=128, required=True, select=True),
         'date': fields.datetime('Create Date', select=True),
-        'date_deadline': fields.datetime('Deadline', select=True, required=True),
+        'date_deadline': fields.datetime('Deadline', select=True),
+        'date_finish': fields.datetime('Finish Date', select=True),
+        'date_cancel': fields.datetime('Cancel Date', select=True, readonly=True),
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
         'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total ($)', type='float', readonly=True, store=True),
         'reference': fields.char('Doc Asociado', size=128, required=False),
         'order_by': fields.char('Solicitada por', size=128, required=False),
+        'delay': fields.float('Delay'),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -58,13 +61,15 @@ class lt_tarea(osv.osv):
     _defaults = {
         'state': lambda *a: 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
+        'delay': 1.0,
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
     }
 
     _order = 'date desc'
 
     def do_done(self, cr, uid, ids, context={}):
-        data = {'state': 'done'}
+        date_finish = time.strftime("%Y-%m-%d %H:%M:%S")
+        data = {'state': 'done', 'date_finish': date_finish}
         self.write(cr, uid, ids, data, context=context)
         return True
 
@@ -74,7 +79,8 @@ class lt_tarea(osv.osv):
         return True
 
     def do_cancel(self, cr, uid, ids, context={}):
-        data = {'state': 'cancelled'}
+        date_cancel = time.strftime("%Y-%m-%d %H:%M:%S")
+        data = {'state': 'cancelled', 'date_cancel': date_cancel}
         self.write(cr, uid, ids, data, context=context)
         return True
 

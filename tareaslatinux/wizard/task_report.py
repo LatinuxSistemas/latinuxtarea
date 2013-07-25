@@ -28,11 +28,15 @@ class lt_task_report_wizard(osv.osv_memory):
         output = header.encode('latin1')
         this = self.browse(cr, uid, ids)[0]
         task = self.pool.get('lt.tarea').browse(cr, uid, context['active_ids'])[0]
-        out = (';' + task.name + ';' + task.date + ';' + (task.order_by or '')
-                + ';' + (task.reference or '') + '\n')
-        out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
+        out = (';' + 'Nombre' + ';' + 'Fecha creada' + ';' + 'Fecha planificada' +
+               ';' + 'Fecha cumplida' + ';'+ 'Pedida por' + ';' + 'Doc. Ref.' + ';' +
+               'Estado' + '\n' + ';' + unicode(task.name) + ';' + task.date + ';' +
+               (task.date_deadline or '') + ';' + (task.date_finish or task.date_cancel or '') +
+               ';' + unicode(task.order_by or '') + ';' + unicode(task.reference or '') +
+               ';' + task.state + '\n' + ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad')
         for resource in task.resource_ids:
-            out += ';'*2 + resource.name.name_template + ';' + str(resource.quantity) + '\n'
+            out += (';'*2 + unicode(resource.name.name_template) + ';' +
+                    unicode(str(resource.quantity)) + '\n')
         out += ';' + 'Total Tarea:' + ';'*5 + '$' + str(task.tarea_amount_total) + '\n'*2
 
         try:
