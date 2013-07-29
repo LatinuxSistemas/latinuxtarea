@@ -45,8 +45,8 @@ class lt_tarea(osv.osv):
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
         'tarea_amount_total': fields.function(_get_amount_total, string='Total expenditure ($)', type='float', readonly=True, store=True),
-        'reference': fields.char('Doc Asociado', size=128, required=False),
-        'order_by': fields.char('Solicitada por', size=128, required=False),
+        'reference': fields.char('Reference Doc', size=128, required=False),
+        'order_by': fields.char('Order By', size=128, required=False),
         'delay': fields.float('Delay'),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
