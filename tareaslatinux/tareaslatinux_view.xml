@@ -11,7 +11,7 @@
 		<field name="model">lt.recurso</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<form string="LT Resources">   	 		  
+			<form string="TyM Resources">   	 		  
     	        <field name="name" on_change="name_change(name,quantity)"/>
                 <field name="quantity" on_change="name_change(name,quantity)"/>
 			</form>
@@ -23,7 +23,7 @@
 		<field name="model">lt.recurso</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-			<tree string="LT Resources tree">
+			<tree string="TyM Resources tree">
    	 		    <field name="name"/>
 			    <field name="quantity"/>
                 <field name="resource_price"/>
@@ -51,7 +51,7 @@
         <field name="type">calendar</field>
         <field name="priority" eval="2"/>
 		<field name="arch" type="xml">
-            <calendar string="LT Tarea" color="target_id" day_length="12" date_start="date_deadline" date_delay='delay'>
+            <calendar string="TyM Task" color="target_id" day_length="12" date_start="date_deadline" date_delay='delay'>
                 <field name="name"/>
             </calendar>
 	    </field>
@@ -83,7 +83,7 @@
 		<field name="priority">2</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-		<form string="LT Tarea">
+		<form string="TyM Task">
 		<group>
 			 <field name="user_id"/>
 			 <field name="name" string="Task Name"/>
@@ -98,7 +98,7 @@
 			 <field colspan="4" name="description" nolabel="1" attrs="{'readonly':[('state','=','done')]}" widget="text_wiki" rowspan="1"/>
 		</group>
 		<notebook colspan="4">
-	        <page string="LT Recursos">
+	        <page string="TyM Resources">
 	            <field name="resource_ids" nolabel="1" colspan="4">
 	              	<tree string="Resource lines">
 	                    <field name="name"/>
@@ -112,7 +112,7 @@
 		    <group col="6">
                 <field name="state" widget="statusbar" statusbar_visible="draft,open,done" statusbar_colors='{"pending":"blue"}'
                 select="1" colspan="0"/>
-                <button name="%(action_report_task_1)d" type="action" icon="gtk-execute" string="Imprimir Reporte" colspan="2"/>
+                <button name="%(action_report_task_1)d" type="action" icon="gtk-execute" string="Print Report" colspan="2"/>
 	            <button name="do_cancel" states="draft,open,pending" string="Cancel" type="object" icon="gtk-cancel" colspan="1"/>
         	    <button name="do_draft" states="open,pending" string="Draft" type="object" icon="gtk-indent" colspan="3"/>
 	            <button name="do_open" states="draft,pending" string="Start Task" type="object" icon="gtk-media-play" colspan="4"/>
@@ -139,7 +139,7 @@
 		<field name="model">lt.target</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		<tree string="LT Target">
+		<tree string="TyM Target">
 		    <field name="name" select="1"/>			
 			<field name="task_ids" invisible="1"/>
 			<field name="partner_id" string="Customer"/>	
@@ -155,7 +155,7 @@
 		<field name="model">lt.target</field>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-	       	<form string="LT Target" >
+	       	<form string="TyM Target" >
                 <field name="name" select="1" colspan="4"/>
 		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)" colspan="2"/>
 		        <field name="location" colspan="2"/>
@@ -195,11 +195,11 @@
     <!-- MENU -->
     <!-- #### -->
     
-    <menuitem id="lt_tarea_menu" sequence="10" name="LatinuxTareas"/>
-    <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="Latinux Tarea"/>
-    <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="Latinux Obj"/>
-    <menuitem id='lt_tarea_menu_3' sequence='1' name='LT Objetivos' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
-    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="LT Tarea"/>
+    <menuitem id="lt_tarea_menu" sequence="10" name="TyM"/>
+    <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="TyM Task"/>
+    <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="TyM Target"/>
+    <menuitem id='lt_tarea_menu_3' sequence='1' name='TyM Targets' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
+    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="TyM Task"/>
 
 </data>
 </openerp>
