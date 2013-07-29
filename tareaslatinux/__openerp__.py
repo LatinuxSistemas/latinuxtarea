@@ -21,11 +21,16 @@
 
 
 {
-    'name': 'tareaslatinux',
+    'name': 'tareas y mantenimiento',
     'version': '0.1',
     'category': 'Tools',
     'description': """
-Una primera versión de módulo para manejar tareas en Latinux
+Módulo para manejar tareas de contratistas y tareas de mantenimiento
+
+Este módulo pretende ser de uso sencillo y dar respuesta a las necesidades básicas
+    de empresas contratistas y sectores de empresas que realizan tareas de mantenimiento
+    sobre máquinas o locaciones.
+   
 """,
     'author': 'Latinux Sistemas',
     'website': '',

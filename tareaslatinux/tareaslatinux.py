@@ -44,7 +44,7 @@ class lt_tarea(osv.osv):
         'description': fields.text('Description', help='Task contents'),
         'target_id': fields.many2one('lt.target', 'Target', required=True),
         'resource_ids': fields.one2many('lt.recurso', 'task_id', 'Recursos'),
-        'tarea_amount_total': fields.function(_get_amount_total, string='Gasto total ($)', type='float', readonly=True, store=True),
+        'tarea_amount_total': fields.function(_get_amount_total, string='Total expenditure ($)', type='float', readonly=True, store=True),
         'reference': fields.char('Doc Asociado', size=128, required=False),
         'order_by': fields.char('Solicitada por', size=128, required=False),
         'delay': fields.float('Delay'),
@@ -128,7 +128,7 @@ class lt_recurso(osv.osv):
 lt_recurso()
 
 class lt_target(osv.osv):
-    """ objetivos de las tareas """
+    """ objetivos sobre los que se aplican las tareas """
 
     def _get_progress_status(self, cr, uid, ids, fields, args, context):
         """ calculate target's progress status """
@@ -162,11 +162,11 @@ class lt_target(osv.osv):
     def onchange_partner(self, cr, uid, ids, partner_id, context={}):
         """ set partner address when updating partner in form """
         addresses = self.pool.get('res.partner.address')
-        location = 'sin definir'
+        location = 'not set'
         if addresses:
             address_id = addresses.search(cr, uid, [('partner_id', '=', partner_id)])
             address = addresses.browse(cr, uid, address_id)[0]
-            lista = [(str(address.city or 'sin definir'))]
+            lista = [(str(address.city or 'not set'))]
             if address.state_id.name:
                 lista.append(str(address.state_id.name))
             if address.country_id.name:
