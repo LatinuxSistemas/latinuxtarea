@@ -144,6 +144,7 @@
 			<field name="task_ids" invisible="1"/>
 			<field name="partner_id" string="Customer"/>	
 			<field name="description" invisible="1"/>
+                <!--<field name="file_ids"/>-->
 			<field name="progress"/>
 		</tree>
 		</field>
@@ -155,16 +156,26 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 	       	<form string="LT Target" >
-                <field name="name" select="1" colspan="3"/>
-		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)"/>
-		        <field name="location"/>
-		        <field name="description" />		
-			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" >
+                <field name="name" select="1" colspan="4"/>
+		        <field name="partner_id" string="Customer" widget="selection" on_change="onchange_partner(partner_id)" colspan="2"/>
+		        <field name="location" colspan="2"/>
+		        <field name="description" colspan="4"/>		
+                <field name="file_ids" colspan="4" nolabel="1">
+                    <tree string="Attachments"> 
+                        <field name="name"/>
+                        <!--<field name="res_name"/>
+                        <field name="store_fname"/>
+                        <field name="description"/>-->
+                        <field name="datas_fname"/>
+                        <!--<field name="url"/>-->
+                    </tree>
+                </field>
+			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" colspan="4" >
 				    <tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
-                       	<field name="date"/>
+                       	<field name="date" />
                        	<field name="name" />	                       			
-                       	<field name="date_deadline"/>
-                        <field name="state"/>
+                       	<field name="date_deadline" />
+                        <field name="state" />
                 	</tree>
 	            </field>
 	            <field name="progress" widget="progressbar" colspan="2"/>

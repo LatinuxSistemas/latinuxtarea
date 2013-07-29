@@ -150,12 +150,13 @@ class lt_target(osv.osv):
 
     _name = 'lt.target'
     _columns = {
-       'name': fields.char('Name', size=64, required=True),
-       'task_ids': fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
-       'description': fields.text('Description'),
-       'partner_id': fields.many2one('res.partner', 'Partner', required=True),
-       'location': fields.char('Ubicación', size=150, required=False),
-       'progress': fields.function(_get_progress_status, string='Progress State(%)', type='float', digits=(4,2)),
+        'name': fields.char('Name', size=64, required=True),
+        'task_ids': fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
+        'description': fields.text('Description'),
+        'partner_id': fields.many2one('res.partner', 'Partner', required=True),
+        'location': fields.char('Ubicación', size=150, required=False),
+        'file_ids': fields.one2many('ir.attachment', 'target_id', 'Adjunto', required=False),
+        'progress': fields.function(_get_progress_status, string='Progress State(%)', type='float', digits=(4,2)),
     }
 
     def onchange_partner(self, cr, uid, ids, partner_id, context={}):
@@ -165,10 +166,23 @@ class lt_target(osv.osv):
         if addresses:
             address_id = addresses.search(cr, uid, [('partner_id', '=', partner_id)])
             address = addresses.browse(cr, uid, address_id)[0]
-            lista = [(str(address.city or 'sin definir')), (str(address.state_id.name or 'sin definir')),
-                     (str(address.country_id.name or 'sin definir'))]
-            coma = ", "
-            location = coma.join(lista)
+            lista = [(str(address.city or 'sin definir'))]
+            if address.state_id.name:
+                lista.append(str(address.state_id.name))
+            if address.country_id.name:
+                lista.append(str(address.country_id.name))
+            if len(lista) > 1:
+                coma = ", "
+                location = coma.join(lista)
+            else:
+                location = lista[0]
         return {'value': {'location': location}}
 
 lt_target()
+
+class ir_attachment(osv.osv):
+    _name = 'ir.attachment'
+    _inherit = 'ir.attachment'
+    _columns = {
+        'target_id': fields.many2one('lt.target'),
+    }
