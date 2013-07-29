@@ -32,7 +32,7 @@
     </record>
 
     <record id="action_lt_recursos_form" model="ir.actions.act_window" >
-        <field name="name">LT Resources</field>
+        <field name="name">TyM Resources</field>
     	<field name="type">ir.actions.act_window</field>
         <field name="res_model">lt.recurso</field>
         <field name="view_type">form</field>
@@ -123,7 +123,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_lt_tarea_tree">
-        <field name="name">LT Tarea</field>
+        <field name="name">TyM Task</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">lt.tarea</field>
         <field name="view_type">form</field>
@@ -184,7 +184,7 @@
     </record>
 
     <record model='ir.actions.act_window' id='action_lt_target_tree'>
-        <field name='name'>LT Objetivos</field>
+        <field name='name'>TyM Targets</field>
         <field name='type'>ir.actions.act_window</field>
         <field name='res_model'>lt.target</field>
         <field name='view_type'>form</field>
