@@ -29,22 +29,43 @@ class lt_target_report_wizard(osv.osv_memory):
         return date_max
 
     def default_get(self, cr, uid, ids, fields, context={}):
-        file1 = 'target_report.csv'
+        file1 = 'target_report'
         res = {'state': 'choose', 'report_file': file1,
+               'report_type': 'pdf',
                'date_min': self._get_min_date(cr, uid, ids),
                'date_max': self._get_max_date(cr, uid, ids), 'detailed': False}
         return res
 
     _columns = {
-            'report_file': fields.char('Nombre de Reporte', 64, readonly=False),
+            'report_file': fields.char('Nombre de Reporte', 128, readonly=False,
+                                       help='No es necesario agregar la extensión del archivo'),
             'data': fields.binary('Reporte', readonly=True),
             'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
+            'report_type': fields.selection([('pdf', 'Imprimir PDF'), ('csv', 'Imprimir CSV')], string='Tipo de reporte'),
             'date_min': fields.date('Fecha desde'),
             'date_max': fields.date('Fecha hasta'),
             'detailed': fields.boolean('Imprimir recursos?'),
             'target_ids': fields.many2many('lt.target', 'wiz_target_rel', 'target_id', 'wiz_id',
                                            'Filtar Objetivos', readonly=False)
     }
+
+    def create_pdf(self, cr, uid, ids, context={}):
+        this = self.browse(cr, uid, ids)[0]
+        report_file = this.report_file + '.' + this.report_type
+        self.write(cr, uid, ids, {'state': 'fin', 'report_file': report_file},
+                   context=context)
+        return {
+                'type': 'ir.actions.report.xml',
+                'report_name': 'lt.recurso.report.jasper',
+                'datas': {
+                    'model': 'lt.target',
+                    'id': context.get('active_ids') and context.get('active_ids')[0] or False,
+                    'ids': context.get('active_ids') or [],
+                    'report_type': this.report_type,
+                    'form': this
+                }
+               }
+
 
     def create_target_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
@@ -101,9 +122,9 @@ class lt_target_report_wizard(osv.osv_memory):
         except UnicodeEncodeError, data:
             logger.warn("Error en el reporte, se deja sin completar!\n%s" % data, exc_info=1)
             salida = ''
-
+        report_file = this.report_file + '.' + this.report_type
         return self.write(cr, uid, ids,
-                          {'state': 'fin', 'data': salida, 'report_file': this.report_file},
+                          {'state': 'fin', 'data': salida, 'report_file': report_file},
                           context=context)
 
 lt_target_report_wizard()

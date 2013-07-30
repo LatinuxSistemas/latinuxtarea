@@ -134,16 +134,14 @@ class lt_target(osv.osv):
         """ calculate target's progress status """
         res = {}
         this = self.browse(cr, uid, ids, context=context)
-        tasks = self.pool.get('lt.tarea')
         for obj in this:
             total = len(obj.task_ids) or 1.0
             res[obj.id] = 0.0
             cont = 0
             for tid in obj.task_ids:
-                task = tasks.read(cr, uid, tid.id, ['state'])
-                if task['state'] in ('cancelled', 'done'):
+                if tid.state in ('cancelled', 'done'):
                     cont += 1
-                elif task['state'] in ('open', 'pending'):
+                elif tid.state in ('open', 'pending'):
                     cont += 0.5
             res[obj.id] = (cont/total)*100
         return res
@@ -186,3 +184,5 @@ class ir_attachment(osv.osv):
     _columns = {
         'target_id': fields.many2one('lt.target'),
     }
+
+ir_attachment()
