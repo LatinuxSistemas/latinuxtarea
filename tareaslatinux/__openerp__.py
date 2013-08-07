@@ -23,22 +23,25 @@
 {
     'name': 'tareas y mantenimiento',
     'version': '0.1',
-    'category': 'Tools',
+    'category': 'TyM',
     'description': """
 Módulo para manejar tareas de contratistas y tareas de mantenimiento
 
 Este módulo pretende ser de uso sencillo y dar respuesta a las necesidades básicas
     de empresas contratistas y sectores de empresas que realizan tareas de mantenimiento
     sobre máquinas o locaciones.
-   
+
 """,
     'author': 'Latinux Sistemas',
     'website': '',
     'depends': ['base','product'],
     'data': [
+        'tareaslatinux_data.xml',
+        'security/tareaslatinux_security.xml',
         'wizard/task_report_view.xml',
         'tareaslatinux_view.xml',
         'wizard/target_report_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [],
     'test':[],

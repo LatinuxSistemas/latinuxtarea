@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+"access_lt_recurso_all","lt_recurso","model_lt_recurso","tareaslatinux.group_tareaslatinux_user",1,1,1,0
+"access_lt_target_all","lt_target","model_lt_target","tareaslatinux.group_tareaslatinux_user",1,1,1,0
+"access_lt_tarea_all","lt_tarea","model_lt_tarea","tareaslatinux.group_tareaslatinux_user",1,1,1,0
+"access_lt_recurso_manager","lt_recurso","model_lt_recurso","tareaslatinux.group_tareaslatinux_manager",1,1,1,1
+"access_lt_target_manager","lt_target","model_lt_target","tareaslatinux.group_tareaslatinux_manager",1,1,1,1
+"access_lt_tarea_manager","lt_tarea","model_lt_tarea","tareaslatinux.group_tareaslatinux_manager",1,1,1,1
+"access_product_product_all","product.product","product.model_product_product","tareaslatinux.group_tareaslatinux_user",1,1,1,0
+"access_product_template_all","product.template","product.model_product_template","tareaslatinux.group_tareaslatinux_user",1,1,1,0
+"access_product_pricelist_all","product.pricelist","product.model_product_pricelist","tareaslatinux.group_tareaslatinux_user",1,1,1,0

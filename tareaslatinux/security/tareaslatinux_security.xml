@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1"><!-- con el tag noupdate me aseguro de no duplicar registros. FANTASTICO -->
+        
+    <record id="group_tareaslatinux_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_tareasymantenimientos"/>
+    </record>
+
+    <record id="group_tareaslatinux_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_tareasymantenimientos"/>
+        <field name="implied_ids" eval="[(4, ref('group_tareaslatinux_user'))]"/>
+    </record>
+
+</data>
+</openerp>

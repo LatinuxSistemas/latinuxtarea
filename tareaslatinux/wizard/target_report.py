@@ -31,7 +31,7 @@ class lt_target_report_wizard(osv.osv_memory):
     def default_get(self, cr, uid, ids, fields, context={}):
         file1 = 'target_report'
         res = {'state': 'choose', 'report_file': file1,
-               'report_type': 'pdf',
+               'report_type': 'csv',
                'date_min': self._get_min_date(cr, uid, ids),
                'date_max': self._get_max_date(cr, uid, ids), 'detailed': False}
         return res
@@ -49,24 +49,6 @@ class lt_target_report_wizard(osv.osv_memory):
                                            'Filtar Objetivos', readonly=False)
     }
 
-    def create_pdf(self, cr, uid, ids, context={}):
-        this = self.browse(cr, uid, ids)[0]
-        report_file = this.report_file + '.' + this.report_type
-        self.write(cr, uid, ids, {'state': 'fin', 'report_file': report_file},
-                   context=context)
-        return {
-                'type': 'ir.actions.report.xml',
-                'report_name': 'lt.recurso.report.jasper',
-                'datas': {
-                    'model': 'lt.target',
-                    'id': context.get('active_ids') and context.get('active_ids')[0] or False,
-                    'ids': context.get('active_ids') or [],
-                    'report_type': this.report_type,
-                    'form': this
-                }
-               }
-
-
     def create_target_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
@@ -75,9 +57,10 @@ class lt_target_report_wizard(osv.osv_memory):
         output = header.encode('latin1')
         targs = self.pool.get('lt.target')
         tasks = self.pool.get('lt.tarea')
+        report_file = this.report_file + '.' + this.report_type
         if not this.target_ids:
-            tids = targs.search(cr, uid, [])
-            targets = targs.browse(cr, uid, tids)
+            tarids = targs.search(cr, uid, [])
+            targets = targs.browse(cr, uid, tarids)
         else:
             tarids = [target.id for target in this.target_ids]
             targids = targs.search(cr, uid, [('id', 'in', tarids)])
@@ -86,8 +69,29 @@ class lt_target_report_wizard(osv.osv_memory):
             this.date_min = self._get_min_date(cr, uid, ids)
         if not this.date_max:
             this.date_min = self._get_max_date(cr, uid, ids)
+        if this.report_type == 'pdf':
+            t = []
+            for target in targets:
+                [t.append(lt.id) for lt in target.task_ids if
+                 time.strptime(lt.date[0:10], "%Y-%m-%d") >= time.strptime(this.date_min[0:10], "%Y-%m-%d")
+                 and time.strptime(lt.date[0:10], "%Y-%m-%d") <= time.strptime(this.date_max[0:10], "%Y-%m-%d")]
+            self.write(cr, uid, ids, {'state': 'fin', 'report_file': report_file},
+                       context=context)
+            return {
+                    'type': 'ir.actions.report.xml',
+                    'in-format': 'oo-odt',
+                    'parser-state': 'default',
+                    'tml-source': 'database',
+                    'report_name': 'lt.target.jasper',
+                    'datas': {
+                        'model': 'lt.tarea',
+                        'id': context.get('active_ids') and context.get('active_ids')[0] or False,
+                        'ids': t,
+                        'report_type': this.report_type,
+                    }
+                   }
 
-        ##### HOJA DE REPORTE #####
+        ##### HOJA DE REPORTE CSV #####
         for target in targets:
             out = ('Nombre objetivo:' + ';' + target.name + '\n'+ ';' + 'Nombre Tarea' + ';'
             + 'Fecha Tarea' + ';' + 'Pedida por' + ';' + 'Doc. Ref.' + '\n')
@@ -122,7 +126,6 @@ class lt_target_report_wizard(osv.osv_memory):
         except UnicodeEncodeError, data:
             logger.warn("Error en el reporte, se deja sin completar!\n%s" % data, exc_info=1)
             salida = ''
-        report_file = this.report_file + '.' + this.report_type
         return self.write(cr, uid, ids,
                           {'state': 'fin', 'data': salida, 'report_file': report_file},
                           context=context)

@@ -26,9 +26,7 @@
                     </field>
                     <button special="cancel" icon="gtk-cancel" string="Cancel" colspan="2"/>
                     <button type="object" name="create_target_report" icon="gtk-go-forward" string="Create" 
-                        colspan="1" attrs="{'invisible': [('report_type', '==', 'pdf')]}"/>
-                    <button type="object" name="create_pdf" icon="gtk-go-forward" string="Create" colspan="1"
-                        attrs="{'invisible': [('report_type', '=='csv'sv')]}"/>
+                     colspan="1"/> 
                 </group>
                 <group states='fin' col="4">
                     <field name="data" filename="report_file" colspan="0"/>

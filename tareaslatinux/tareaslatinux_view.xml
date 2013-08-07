@@ -144,7 +144,6 @@
 			<field name="task_ids" invisible="1"/>
 			<field name="partner_id" string="Customer"/>	
 			<field name="description" invisible="1"/>
-                <!--<field name="file_ids"/>-->
 			<field name="progress"/>
 		</tree>
 		</field>
@@ -163,11 +162,7 @@
                 <field name="file_ids" colspan="4" nolabel="1">
                     <tree string="Attachments"> 
                         <field name="name"/>
-                        <!--<field name="res_name"/>
-                        <field name="store_fname"/>
-                        <field name="description"/>-->
                         <field name="datas_fname"/>
-                        <!--<field name="url"/>-->
                     </tree>
                 </field>
 			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" colspan="4" >
