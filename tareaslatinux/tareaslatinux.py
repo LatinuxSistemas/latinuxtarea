@@ -48,6 +48,7 @@ class lt_tarea(osv.osv):
         'reference': fields.char('Reference Doc', size=128, required=False),
         'order_by': fields.char('Order By', size=128, required=False),
         'delay': fields.float('Delay'),
+        'priority': fields.selection([('normal', 'Normal'),('critical', 'Critical')], 'Priority', required=True),
         'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
                                    ('done', 'Done'), ('cancelled', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
@@ -60,6 +61,7 @@ class lt_tarea(osv.osv):
 
     _defaults = {
         'state': lambda *a: 'draft',
+        'priority': lambda *a: 'normal',
         'user_id': lambda obj, cr, uid, context: uid,
         'delay': 1.0,
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),

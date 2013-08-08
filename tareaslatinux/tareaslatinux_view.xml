@@ -50,27 +50,29 @@
 		<field name="model">lt.tarea</field>
         <field name="type">calendar</field>
         <field name="priority" eval="2"/>
-		<field name="arch" type="xml">
+        <field name="arch" type="xml">
             <calendar string="TyM Task" color="target_id" day_length="12" date_start="date_deadline" date_delay='delay'>
                 <field name="name"/>
             </calendar>
-	    </field>
+        </field>
     </record>
 
     <record model="ir.ui.view" id="lt_tarea_tree_view">
-		<field name="name">lt.tarea.tree</field>
+        <field name="name">lt.tarea.tree</field>
 		<field name="model">lt.tarea</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
 		    <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="lt Tasks">
 		   	    <field name="name" select="1" string="Task Name"/>
+                <field name="target_id"/>
 		   	    <field name="user_id"/>
                 <field name="date"/>
-                <field name="date_finish"/>
-			    <field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
+                <!--                <field name="date_finish"/> -->
+			    <field name="date_deadline"/>
                 <field name="order_by"/>
                 <field name="reference"/>
 			    <field name="description"/>
+                <field name="priority"/>
     			<field name="state"/>
 	    		<button name="do_open" states="pending,draft,done" string="Start Task" type="object" icon="gtk-media-play" help="For changing to open state" invisible="context.get('set_visible',False)"/>
 		    </tree>
@@ -91,6 +93,7 @@
              <field name="date_finish"/>  
              <field name="date_cancel" states='cancelled'/>  
 			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}"/>
+             <field name="priority"/>
              <field name="order_by"/>
              <field name="reference"/>
 			 <field name="target_id"/>
