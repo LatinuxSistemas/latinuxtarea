@@ -67,7 +67,6 @@
                 <field name="target_id"/>
 		   	    <field name="user_id"/>
                 <field name="date"/>
-                <!--                <field name="date_finish"/> -->
 			    <field name="date_deadline"/>
                 <field name="order_by"/>
                 <field name="reference"/>
@@ -86,20 +85,20 @@
 		<field name="type">form</field>
 		<field name="arch" type="xml">
 		<form string="TyM Task">
-		<group>
-			 <field name="user_id"/>
-			 <field name="name" string="Task Name"/>
-			 <field name="date"/>
-             <field name="date_finish"/>  
-             <field name="date_cancel" states='cancelled'/>  
-			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}"/>
-             <field name="priority"/>
-             <field name="order_by"/>
-             <field name="reference"/>
-			 <field name="target_id"/>
-             <field name="tarea_amount_total"/>
-			 <field colspan="4" name="description" nolabel="1" attrs="{'readonly':[('state','=','done')]}" widget="text_wiki" rowspan="1"/>
+		<group col="6">
+			 <field name="name" string="Task Name" colspan="6"/>
+			 <field name="target_id" colspan="2"/>
+             <field name="priority" colspan="2"/>
+			 <field name="user_id" colspan="2"/>
+			 <field name="date" colspan="2"/>
+			 <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}" colspan="0"/>
+             <field name="date_finish" colspan="2"/>  
+             <field name="order_by" colspan="2"/>
+             <field name="reference" colspan="2"/>
+             <field name="tarea_amount_total" colspan="2"/>
+			 <field colspan="6" name="description" nolabel="1" attrs="{'readonly':[('state','=','done')]}" widget="text_wiki" rowspan="1"/>
 		</group>
+        <field name="date_cancel" states='cancelled' colspan="2"/>  
 		<notebook colspan="4">
 	        <page string="TyM Resources">
 	            <field name="resource_ids" nolabel="1" colspan="4">
