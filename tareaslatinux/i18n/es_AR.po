@@ -85,17 +85,17 @@ msgstr "Reporte"
 #. module: tareaslatinux
 #: field:lt.tarea,state:0
 msgid "State"
-msgstr "State"
+msgstr "Estado"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
 msgid "Draft"
-msgstr "Draft"
+msgstr "Borrador"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
 msgid "Print Report"
-msgstr "Print Report"
+msgstr "Imprimir Reporte"
 
 #. module: tareaslatinux
 #: field:lt.target.report.wizard,report_type:0
