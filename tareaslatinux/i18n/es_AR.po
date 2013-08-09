@@ -23,7 +23,7 @@ msgstr "Tareas Asociadas"
 #. module: tareaslatinux
 #: field:lt.tarea,date_finish:0
 msgid "Finish Date"
-msgstr "Fecha de fin"
+msgstr "Fecha de finalización"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_latinuxtarea_target
@@ -36,15 +36,15 @@ msgid "When the task is created the state is 'Draft'.\n"
 "                                  If the task is started, the state becomes 'In Progress'.\n"
 "                                  If review is needed the task is in 'Pending' state.\n"
 "                                  If the task is over, the states is set to 'Done'."
-msgstr "When the task is created the state is 'Draft'.\n"
-"                                  If the task is started, the state becomes 'In Progress'.\n"
-"                                  If review is needed the task is in 'Pending' state.\n"
-"                                  If the task is over, the states is set to 'Done'."
+msgstr "Cuando la tarea es creada el estado es 'Borrador'.\n"
+"                                  Si la tarea es comenzada, el estado pasa a 'En Curso'.\n"
+"                                  Si la tarea necesita ser revisada se ecnontrará en estado 'Pendiente'.\n"
+"                                  Si la tarea se terminó, el estado será 'Terminada'."
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
 msgid "In Progress"
-msgstr "Corriendo"
+msgstr "En Curso"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_latinuxtarea_recurso

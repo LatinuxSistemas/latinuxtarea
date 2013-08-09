@@ -38,13 +38,13 @@ class lt_target_report_wizard(osv.osv_memory):
 
     _columns = {
             'report_file': fields.char('Nombre de Reporte', 128, readonly=False,
-                                       help='No es necesario agregar la extensión del archivo'),
+                                       help='File extension is not needed'),
             'data': fields.binary('Reporte', readonly=True),
-            'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
-            'report_type': fields.selection([('pdf', 'Imprimir PDF'), ('csv', 'Imprimir CSV')], string='Tipo de reporte'),
-            'date_min': fields.date('Fecha desde'),
-            'date_max': fields.date('Fecha hasta'),
-            'detailed': fields.boolean('Imprimir recursos?'),
+            'state': fields.selection([('choose','choose'), ('fin','fin')], string="State"),
+            'report_type': fields.selection([('pdf', 'Print PDF'), ('csv', 'Print CSV')], string='Tipo de reporte'),
+            'date_min': fields.date('Start Date'),
+            'date_max': fields.date('Finish Date'),
+            'detailed': fields.boolean('Print Resources ?'),
             'target_ids': fields.many2many('lt.target', 'wiz_target_rel', 'target_id', 'wiz_id',
                                            'Filtar Objetivos', readonly=False)
     }
