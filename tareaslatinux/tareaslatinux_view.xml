@@ -62,9 +62,9 @@
 		<field name="model">lt.tarea</field>
 		<field name="type">tree</field>
 		<field name="arch" type="xml">
-		    <tree colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('0','1','2'))" string="lt Tasks">
+		    <tree colors="grey:state in ('9','10');blue:state == '2';red:date_deadline and (date_deadline&lt;current_date) and (state in ('0','1','2'))" string="lt Tasks">
 		   	    <field name="name" select="1" string="Task Name"/>
-                <field name="target_id"/>
+                <field name="target_id" select="1"/>
 		   	    <field name="user_id"/>
                 <field name="date"/>
 			    <field name="date_deadline"/>
@@ -169,7 +169,7 @@
                         <field name="datas_fname"/>
                     </tree>
                 </field>
-			    <field name="task_ids" invisible="0" readonly="1" nolabel="1" colspan="4" >
+			    <field name="task_ids" invisible="0" readonly="0" nolabel="1" colspan="4" >
 				    <tree colors="grey:state in ('cancelled');blue:state =='done';red:state in ('draft','pending','open')" string="Associated Tasks">
                        	<field name="date" />
                        	<field name="name" />	                       			
