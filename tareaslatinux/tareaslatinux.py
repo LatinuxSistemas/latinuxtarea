@@ -48,9 +48,9 @@ class lt_tarea(osv.osv):
         'reference': fields.char('Reference Doc', size=128, required=False),
         'order_by': fields.char('Order By', size=128, required=False),
         'delay': fields.float('Delay'),
-        'priority': fields.selection([('normal', 'Normal'),('critical', 'Critical')], 'Priority', required=True),
-        'state': fields.selection([('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'),
-                                   ('done', 'Done'), ('cancelled', 'Cancelled')
+        'priority': fields.selection([('1', 'Normal'),('2', 'Critical')], 'Priority', required=True),
+        'state': fields.selection([('0', 'New'),('1', 'In Progress'),('2', 'Pending'),
+                                   ('9', 'Done'), ('10', 'Cancelled')
                                   ], 'State', readonly=True, required=True,
                                   help="""When the task is created the state is \'Draft\'.
                                   If the task is started, the state becomes \'In Progress\'.
@@ -59,35 +59,35 @@ class lt_tarea(osv.osv):
                                  ),
     }
 
+    _order = 'state asc,priority desc,date desc'
+
     _defaults = {
-        'state': lambda *a: 'draft',
-        'priority': lambda *a: 'normal',
+        'state': lambda *a: '0',
+        'priority': lambda *a: '1',
         'user_id': lambda obj, cr, uid, context: uid,
         'delay': 1.0,
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
     }
 
-    _order = 'date desc'
-
     def do_done(self, cr, uid, ids, context={}):
         date_finish = time.strftime("%Y-%m-%d %H:%M:%S")
-        data = {'state': 'done', 'date_finish': date_finish}
+        data = {'state': '9', 'date_finish': date_finish}
         self.write(cr, uid, ids, data, context=context)
         return True
 
     def do_open(self, cr, uid, ids, context={}):
-        data = {'state': 'open'}
+        data = {'state': '1'}
         self.write(cr, uid, ids, data, context=context)
         return True
 
     def do_cancel(self, cr, uid, ids, context={}):
         date_cancel = time.strftime("%Y-%m-%d %H:%M:%S")
-        data = {'state': 'cancelled', 'date_cancel': date_cancel}
+        data = {'state': '10', 'date_cancel': date_cancel}
         self.write(cr, uid, ids, data, context=context)
         return True
 
     def do_draft(self, cr, uid, ids, context={}):
-        data = {'state': 'draft'}
+        data = {'state': '0'}
         self.write(cr, uid, ids, data, context=context)
         return True
 
@@ -141,9 +141,9 @@ class lt_target(osv.osv):
             res[obj.id] = 0.0
             cont = 0
             for tid in obj.task_ids:
-                if tid.state in ('cancelled', 'done'):
+                if tid.state in ('10', '9'):
                     cont += 1
-                elif tid.state in ('open', 'pending'):
+                elif tid.state in ('1', '2'):
                     cont += 0.5
             res[obj.id] = (cont/total)*100
         return res
