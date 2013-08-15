@@ -1,9 +1,9 @@
 # -*- coding: latin1 -*-
 
 import base64
+import time
 
 from openerp.osv import fields, osv
-import time
 import logging
 
 class lt_task_report_wizard(osv.osv_memory):
@@ -28,16 +28,19 @@ class lt_task_report_wizard(osv.osv_memory):
         output = header.encode('latin1')
         this = self.browse(cr, uid, ids)[0]
         task = self.pool.get('lt.tarea').browse(cr, uid, context['active_ids'])[0]
+        date = time.strftime('%d/%m/%Y', time.strptime(task.date, '%Y-%m-%d %H:%M:%S'))
+        date_deadline = time.strftime('%d/%m/%Y', time.strptime(task.date_deadline, '%Y-%m-%d %H:%M:%S'))
+        date_finish = time.strftime('%d/%m/%Y', time.strptime((task.date_finish or task.date_cancel), '%Y-%m-%d %H:%M:%S'))
         out = (';' + 'Nombre' + ';' + 'Fecha creada' + ';' + 'Fecha planificada' +
                ';' + 'Fecha cumplida' + ';'+ 'Pedida por' + ';' + 'Doc. Ref.' + ';' +
-               'Estado' + '\n' + ';' + unicode(task.name) + ';' + task.date + ';' +
-               (task.date_deadline or '') + ';' + (task.date_finish or task.date_cancel or '') +
+               'Estado' + '\n' + ';' + unicode(task.name) + ';' + date + ';' +
+               date_deadline + ';' + date_finish +
                ';' + unicode(task.order_by or '') + ';' + unicode(task.reference or '') +
                ';' + task.state + '\n' + ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad')
         for resource in task.resource_ids:
-            out += (';'*2 + unicode(resource.name.name_template) + ';' +
-                    unicode(str(resource.quantity)) + '\n')
-        out += ';' + 'Total Tarea:' + ';'*5 + '$' + str(task.tarea_amount_total) + '\n'*2
+            out += ('\n'+';'*2 + unicode(resource.name.name_template) + ';' +
+                    unicode(str(resource.quantity)))
+        out += '\n'+';' + 'Total Tarea:' + ';'*5 + '$' + str(task.tarea_amount_total) + '\n'*2
 
         try:
             if isinstance(out, unicode):

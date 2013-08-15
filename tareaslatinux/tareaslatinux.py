@@ -69,9 +69,19 @@ class lt_tarea(osv.osv):
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
     }
 
+    def onchange_date_finish(self, cr, uid, ids, context={}):
+        this = self.browse(cr, uid, ids)[0]
+        data = {'date_finish': this.date_finish}
+        self.write(cr, uid, ids, data, context=context)
+        return True
+
     def do_done(self, cr, uid, ids, context={}):
-        date_finish = time.strftime("%Y-%m-%d %H:%M:%S")
-        data = {'state': '9', 'date_finish': date_finish}
+        this = self.browse(cr, uid, ids)[0]
+        if not this.date_finish:
+            date_finish = time.strftime("%Y-%m-%d %H:%M:%S")
+            data = {'state': '9', 'date_finish': date_finish}
+        else:
+            data = {'state': '9', 'date_finish': this.date_finish}
         self.write(cr, uid, ids, data, context=context)
         return True
 
