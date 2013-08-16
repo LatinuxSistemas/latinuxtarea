@@ -93,8 +93,9 @@ class lt_target_report_wizard(osv.osv_memory):
 
         ##### HOJA DE REPORTE CSV #####
         for target in targets:
-            out = ('Nombre objetivo:' + ';' + target.name + '\n'+ ';' + 'Nombre Tarea' + ';'
-            + 'Fecha Tarea' + ';' + 'Pedida por' + ';' + 'Doc. Ref.' + '\n')
+            out = ('Nombre objetivo:' + ';' + target.name + '\n'+ ';' + 'Nombre Tarea' +
+                   ';' + 'Descripcion' + ';' + 'Fecha Tarea' + ';' + 'Pedida por' + ';' +
+                   'Doc. Ref.' + '\n')
             task_ids = tasks.search(cr, uid, ['&', ('date', '>=', this.date_min), '&',
                                               ('date', '<=', this.date_max),
                                               ('target_id', '=', target.id),
@@ -105,8 +106,9 @@ class lt_target_report_wizard(osv.osv_memory):
 
             for task in tasks_filter:
                 cont += task.tarea_amount_total
-                out += (';' + task.name + ';' + task.date + ';' + (task.order_by or '')
-                        + ';' + (task.reference or '') + '\n')
+                out += (';' + task.name + ';' + (task.description or '') +
+                        ';' + task.date + ';' + (task.order_by or '') +
+                        ';' + (task.reference or '') + '\n')
                 if this.detailed:
                     out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
                     for resource in task.resource_ids:
