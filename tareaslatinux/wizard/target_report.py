@@ -106,9 +106,10 @@ class lt_target_report_wizard(osv.osv_memory):
 
             for task in tasks_filter:
                 cont += task.tarea_amount_total
+                date = time.strftime('%d/%m/%Y', time.strptime(task.date, '%Y-%m-%d %H:%M:%S'))
                 out += (';' + task.name + ';' + (task.description or '') +
-                        ';' + task.date + ';' + (task.order_by or '') +
-                        ';' + (task.reference or '') + '\n')
+                        ';' + date + ';' + (task.order_by or '') + ';' +
+                        (task.reference or '') + '\n')
                 if this.detailed:
                     out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
                     for resource in task.resource_ids:
