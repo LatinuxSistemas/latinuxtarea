@@ -16,15 +16,15 @@ class lt_task_report_wizard(osv.osv_memory):
         return res
 
     _columns = {
-            'report_file': fields.char('Nombre de Reporte', 64, readonly=False),
-            'data': fields.binary('Reporte', readonly=True),
-            'state': fields.selection([('choose','choose'), ('fin','fin')], string="estado"),
+            'report_file': fields.char('Report Name', 64, readonly=False),
+            'data': fields.binary('Report', readonly=True),
+            'state': fields.selection([('choose','choose'), ('fin','fin')], string="state"),
     }
 
     def create_task_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
-        header = 'Reporte Tareas'+';'+ fec_reporte +'\n'*2
+        header = 'Tasks Report'+';'+ fec_reporte +'\n'*2
         output = header.encode('latin1')
         this = self.browse(cr, uid, ids)[0]
         task = self.pool.get('lt.tarea').browse(cr, uid, context['active_ids'])[0]
@@ -32,23 +32,23 @@ class lt_task_report_wizard(osv.osv_memory):
         if task.date_deadline:
             date_deadline = time.strftime('%d/%m/%Y', time.strptime(task.date_deadline, '%Y-%m-%d %H:%M:%S'))
         else:
-            date_deadline = 'no fijada'
+            date_deadline = 'not set'
         if task.date_finish or task.date_cancel:
             date_finish = time.strftime('%d/%m/%Y', time.strptime((task.date_finish or task.date_cancel), '%Y-%m-%d %H:%M:%S'))
         else:
-            date_finish = 'no fijada'
-        out = (';' + 'Nombre' + ';' + 'Descripcion' + ';' + 'Fecha creada' + ';' +
-               'Fecha planificada' + ';' + 'Fecha fin/cancelada' + ';'+ 'Pedida por' +
-               ';' + 'Doc. Ref.' + ';' + 'Estado' + '\n' + ';' + unicode(task.name) +
+            date_finish = 'not set'
+        out = (';' + 'Name' + ';' + 'Description' + ';' + 'Created Date' + ';' +
+               'Deadline' + ';' + 'Terminated Date' + ';'+ 'Order by' +
+               ';' + 'Ref. Doc.' + ';' + 'State' + '\n' + ';' + unicode(task.name) +
                ';' + unicode(task.description or '') + ';' + date + ';' + date_deadline +
                ';' + date_finish + ';' + unicode(task.order_by or '') + ';' +
                unicode(task.reference or '') + ';' + task.state + '\n' + ';' +
-               'Nombre Recurso' + ';' + 'Cantidad')
+               'Resource Name' + ';' + 'Quantity')
 
         for resource in task.resource_ids:
             out += ('\n'+';' + unicode(resource.name.name_template) + ';' +
                     unicode(str(resource.quantity)))
-        out += '\n'+ ';' + 'Total Tarea ($):' + ';' + str(task.tarea_amount_total).replace('.', ',') + '\n'*2
+        out += '\n'+ ';' + 'Total Task ($):' + ';' + str(task.tarea_amount_total).replace('.', ',') + '\n'*2
 
         try:
             if isinstance(out, unicode):

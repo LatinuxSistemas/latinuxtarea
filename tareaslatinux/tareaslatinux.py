@@ -164,8 +164,8 @@ class lt_target(osv.osv):
         'task_ids': fields.one2many('lt.tarea', 'target_id', 'Task', required=False),
         'description': fields.text('Description'),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True),
-        'location': fields.char('Ubicación', size=150, required=False),
-        'file_ids': fields.one2many('ir.attachment', 'target_id', 'Adjunto', required=False),
+        'location': fields.char('Location', size=150, required=False),
+        'file_ids': fields.one2many('ir.attachment', 'target_id', 'Attachment', required=False),
         'progress': fields.function(_get_progress_status, string='Progress State(%)', type='float', digits=(4,2)),
     }
 

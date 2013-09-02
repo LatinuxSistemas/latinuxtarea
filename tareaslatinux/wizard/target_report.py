@@ -37,16 +37,16 @@ class lt_target_report_wizard(osv.osv_memory):
         return res
 
     _columns = {
-            'report_file': fields.char('Nombre de Reporte', 128, readonly=False,
+            'report_file': fields.char('Report Name', 128, readonly=False,
                                        help='File extension is not needed'),
             'data': fields.binary('Reporte', readonly=True),
             'state': fields.selection([('choose','choose'), ('fin','fin')], string="State"),
-            'report_type': fields.selection([('pdf', 'Print PDF'), ('csv', 'Print CSV')], string='Tipo de reporte'),
+            'report_type': fields.selection([('pdf', 'Print PDF'), ('csv', 'Print CSV')], string='Report Type'),
             'date_min': fields.date('Start Date'),
             'date_max': fields.date('Finish Date'),
             'detailed': fields.boolean('Print Resources ?'),
             'target_ids': fields.many2many('lt.target', 'wiz_target_rel', 'target_id', 'wiz_id',
-                                           'Filtar Objetivos', readonly=False)
+                                           'Target Filter', readonly=False)
     }
 
     def create_target_report(self, cr, uid, ids, context={}):
@@ -93,9 +93,9 @@ class lt_target_report_wizard(osv.osv_memory):
 
         ##### HOJA DE REPORTE CSV #####
         for target in targets:
-            out = ('Nombre objetivo:' + ';' + target.name + '\n'+ ';' + 'Nombre Tarea' +
-                   ';' + 'Descripcion' + ';' + 'Fecha Tarea' + ';' + 'Pedida por' + ';' +
-                   'Doc. Ref.' + '\n')
+            out = ('Target Name:' + ';' + target.name + '\n'+ ';' + 'Task Name' +
+                   ';' + 'Description' + ';' + 'Task Date' + ';' + 'Order By' + ';' +
+                   'Ref. Doc.' + '\n')
             task_ids = tasks.search(cr, uid, ['&', ('date', '>=', this.date_min), '&',
                                               ('date', '<=', this.date_max),
                                               ('target_id', '=', target.id),
@@ -111,10 +111,10 @@ class lt_target_report_wizard(osv.osv_memory):
                         ';' + date + ';' + (task.order_by or '') + ';' +
                         (task.reference or '') + '\n')
                 if this.detailed:
-                    out += ';'*2 + 'Nombre Recurso' + ';' + 'Cantidad'
+                    out += ';'*2 + 'Resource Name' + ';' + 'Quantity'
                     for resource in task.resource_ids:
                         out += ';'*2 + resource.name.name_template + ';' + repr(resource.quantity) + '\n'
-            out += ';' + 'Total objetivo:' + ';'*5 + '$' + str(cont) + '\n'*2
+            out += ';' + 'Total (target):' + ';'*5 + '$' + str(cont) + '\n'*2
 
             try:
                 if isinstance(out, unicode):
