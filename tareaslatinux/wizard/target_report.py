@@ -39,7 +39,7 @@ class lt_target_report_wizard(osv.osv_memory):
     _columns = {
             'report_file': fields.char('Report Name', 128, readonly=False,
                                        help='File extension is not needed'),
-            'data': fields.binary('Reporte', readonly=True),
+            'data': fields.binary('Report', readonly=True),
             'state': fields.selection([('choose','choose'), ('fin','fin')], string="State"),
             'report_type': fields.selection([('pdf', 'Print PDF'), ('csv', 'Print CSV')], string='Report Type'),
             'date_min': fields.date('Start Date'),
@@ -52,7 +52,7 @@ class lt_target_report_wizard(osv.osv_memory):
     def create_target_report(self, cr, uid, ids, context={}):
         logger = logging.getLogger(__name__)
         fec_reporte = time.strftime("%d de %B de %Y")
-        header = 'Reporte Objetivos'+';'+ fec_reporte +'\n'*2
+        header = 'Target Report'+';'+ fec_reporte +'\n'*2
         this = self.browse(cr, uid, ids)[0]
         output = header.encode('latin1')
         targs = self.pool.get('lt.target')
