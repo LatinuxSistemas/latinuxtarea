@@ -34,7 +34,7 @@ Este módulo pretende ser de uso sencillo y dar respuesta a las necesidades bás
 """,
     'author': 'Latinux Sistemas',
     'website': '',
-    'depends': ['base','product'],
+    'depends': ['base', 'product', 'sale', 'purchase'],
     'data': [
         'tareaslatinux_data.xml',
         'security/tareaslatinux_security.xml',
