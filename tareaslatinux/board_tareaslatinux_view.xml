@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <record model="ir.ui.view" id="lt_tarea_tree_view">
+        <field name="name">lt.tarea.tree</field>
+		<field name="model">lt.tarea</field>
+		<field name="type">tree</field>
+        <field eval="99" name="priority"/>
+		<field name="arch" type="xml">
+		    <tree colors="grey:state in ('9','10');blue:state == '2';red:date_deadline and (date_deadline&lt;current_date) and (state in ('0','1'))" string="lt Tasks">
+		   	    <field name="name" select="1" string="Task Name"/>
+                <field name="target_id" select="1"/>
+		   	    <field name="user_id"/>
+                <field name="date"/>
+			    <field name="date_deadline"/>
+                <field name="order_by"/>
+			    <field name="description"/>
+                <field name="priority"/>
+    			<field name="state"/>
+		    </tree>
+		</field>
+    </record>    
+
+        <record id="action_new_tasks_tree" model="ir.actions.act_window">
+            <field name="name">New Tasks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lt.tarea</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ('0', '0'))]</field>
+            <field name="view_id" ref="lt_tarea_tree_view"/>
+        </record>
+
+        <record id="action_pending_tasks_tree" model="ir.actions.act_window">
+            <field name="name">Pending Tasks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lt.tarea</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ('1', '2'))]</field>
+            <field name="view_id" ref="lt_tarea_tree_view"/>
+        </record>
+
+        <record id="view_tasks_board_form" model="ir.ui.view">
+            <field name="name">tasks.board.form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tasks Dashboard">
+                    <board style="2-1">
+                        <column>
+                            <action name="%(action_new_tasks_tree)d" string="New Tasks" creatable="true"/>
+                            <action name="%(action_pending_tasks_tree)d" string="Pending Tasks" creatable="true"/>
+                        </column>
+                        <column>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_board_tasks" model="ir.actions.act_window">
+            <field name="name">Tasks Dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="view_tasks_board_form"/>
+        </record>
+
+        <menuitem 
+            id="lt_tarea_menu"
+            sequence="10" 
+            name="TyM"
+            action="open_board_tasks"/>
+
+    </data>
+</openerp>
