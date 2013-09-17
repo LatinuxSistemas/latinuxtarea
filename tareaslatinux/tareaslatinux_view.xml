@@ -87,7 +87,7 @@
 		<field name="arch" type="xml">
 		<form string="TyM Task">
 		<group col="6">
-			 <field name="name" string="Task Name" colspan="6"/>
+			 <field name="name" string="task name" colspan="6"/>
 			 <field name="target_id" colspan="2"/>
              <field name="priority" colspan="2"/>
 			 <field name="user_id" colspan="2"/>
@@ -194,7 +194,6 @@
     <!-- MENU -->
     <!-- #### -->
     
-    <menuitem id="lt_tarea_menu" sequence="10" name="TyM"/>
     <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="TyM Task"/>
     <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="TyM Target"/>
     <menuitem id='lt_tarea_menu_3' sequence='1' name='TyM Targets' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>

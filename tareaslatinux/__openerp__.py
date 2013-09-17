@@ -42,6 +42,7 @@ Este módulo pretende ser de uso sencillo y dar respuesta a las necesidades bás
         'tareaslatinux_view.xml',
         'wizard/target_report_view.xml',
         'security/ir.model.access.csv',
+        'board_tareaslatinux_view.xml',
     ],
     'demo': [],
     'test':[],
