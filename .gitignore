@@ -1,4 +1,12 @@
-# Ignore python compiled files
+# Ignore python compiled files.
 
 tareaslatinux/wizard/*.pyc
 tareaslatinux/*.pyc
+
+# Ignore .swo files.
+
+tareaslatinux/wizard/*.swo
+tareaslatinux/security/*.swo
+tareaslatinux/i18n/*.swo
+tareaslatinux/*.swo
+
