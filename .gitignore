@@ -1,0 +1,4 @@
+# Ignore python compiled files
+
+tareaslatinux/wizard/*.pyc
+tareaslatinux/*.pyc
