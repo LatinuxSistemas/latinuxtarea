@@ -10,3 +10,9 @@ tareaslatinux/security/*.swo
 tareaslatinux/i18n/*.swo
 tareaslatinux/*.swo
 
+# Ignore emacs temps.
+
+tareaslatinux/wizard/*~
+tareaslatinux/security/*~
+tareaslatinux/i18n/*~
+tareaslatinux/*~
