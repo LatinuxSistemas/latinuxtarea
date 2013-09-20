@@ -49,7 +49,7 @@
     <menuitem id="menu_report_target_1" 
               name="Task Report"
               action="action_report_target_1"
-              parent="lt_tarea_menu_4"
+              parent="lt_tarea_target_tree_root_menu"
               sequence="1000" 
               icon="STOCK_PRINT"/>
 

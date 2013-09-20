@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="lt_tarea_tree_view">
+    <record model="ir.ui.view" id="lt_tarea_dash_tree_view">
         <field name="name">lt.tarea.tree</field>
 		<field name="model">lt.tarea</field>
 		<field name="type">tree</field>
@@ -29,7 +29,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state', 'in', ('0', '0'))]</field>
-            <field name="view_id" ref="lt_tarea_tree_view"/>
+            <field name="view_id" ref="lt_tarea_dash_tree_view"/>
         </record>
 
         <record id="action_pending_tasks_tree" model="ir.actions.act_window">
@@ -39,7 +39,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state', 'in', ('1', '2'))]</field>
-            <field name="view_id" ref="lt_tarea_tree_view"/>
+            <field name="view_id" ref="lt_tarea_dash_tree_view"/>
         </record>
 
         <record id="view_tasks_board_form" model="ir.ui.view">

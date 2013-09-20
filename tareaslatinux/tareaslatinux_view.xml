@@ -160,7 +160,6 @@
 	       	<form string="TyM Target" >
                 <field name="name" select="1" colspan="4"/>
                 <field name="partner_id" string="Customer" widget="selection" colspan="2"/>
-                    <!-- on_change="onchange_partner(partner_id)"/>-->
 		        <field name="location" colspan="2"/>
 		        <field name="description" colspan="4"/>		
                 <field name="file_ids" colspan="4" nolabel="1">
@@ -194,10 +193,10 @@
     <!-- MENU -->
     <!-- #### -->
     
-    <menuitem id="lt_tarea_menu_1" parent="lt_tarea_menu" sequence="10" name="TyM Task"/>
-    <menuitem id="lt_tarea_menu_4" parent="lt_tarea_menu" sequence="9" name="TyM Target"/>
-    <menuitem id='lt_tarea_menu_3' sequence='1' name='TyM Targets' parent='lt_tarea_menu_4' action='action_lt_target_tree'/>
-    <menuitem id="lt_tarea_menu_2" action="action_lt_tarea_tree" parent="lt_tarea_menu_1" sequence="2" name="TyM Task"/>
+    <menuitem id="lt_tarea_root_menu" parent="lt_tarea_menu" sequence="10" name="TyM Task"/>
+    <menuitem id="lt_tarea_task_tree_view_menu" action="action_lt_tarea_tree" parent="lt_tarea_root_menu" sequence="2" name="TyM Task"/>
+    <menuitem id="lt_tarea_target_tree_root_menu" parent="lt_tarea_menu" sequence="9" name="TyM Target"/>
+    <menuitem id='lt_tarea_target_tree_view_menu' sequence='1' name='TyM Targets' parent='lt_tarea_target_tree_root_menu' action='action_lt_target_tree'/>
 
 </data>
 </openerp>
