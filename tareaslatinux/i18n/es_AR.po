@@ -4,15 +4,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.1-20130505-234720\n"
+"Project-Id-Version: OpenERP Server 6.1-20130722-233408\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 14:35+0000\n"
-"PO-Revision-Date: 2013-08-08 14:35+0000\n"
+"POT-Creation-Date: 2013-09-20 19:23+0000\n"
+"PO-Revision-Date: 2013-09-20 19:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: latin1\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: tareaslatinux
@@ -22,13 +22,9 @@ msgstr "Tareas Asociadas"
 
 #. module: tareaslatinux
 #: field:lt.tarea,date_finish:0
+#: field:lt.target.report.wizard,date_max:0
 msgid "Finish Date"
-msgstr "Fecha de finalización"
-
-#. module: tareaslatinux
-#: model:ir.model,name:tareaslatinux.model_latinuxtarea_target
-msgid "latinuxtarea.target"
-msgstr "latinuxtarea.target"
+msgstr "Fecha de finalizacion"
 
 #. module: tareaslatinux
 #: help:lt.tarea,state:0
@@ -38,8 +34,8 @@ msgid "When the task is created the state is 'Draft'.\n"
 "                                  If the task is over, the states is set to 'Done'."
 msgstr "Cuando la tarea es creada el estado es 'Borrador'.\n"
 "                                  Si la tarea es comenzada, el estado pasa a 'En Curso'.\n"
-"                                  Si la tarea necesita ser revisada se ecnontrará en estado 'Pendiente'.\n"
-"                                  Si la tarea se terminó, el estado será 'Terminada'."
+"                                  Si la tarea necesita ser revisada cambia a estado 'Pendiente'.\n"
+"                                  Si la tarea se termina, el estado cambia a 'Terminada'."
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
@@ -47,45 +43,48 @@ msgid "In Progress"
 msgstr "En Curso"
 
 #. module: tareaslatinux
-#: model:ir.model,name:tareaslatinux.model_latinuxtarea_recurso
-msgid "latinuxtarea.recurso"
-msgstr "latinuxtarea.recurso"
+#: field:lt.target.report.wizard,detailed:0
+msgid "Print Resources ?"
+msgstr "Imprimir Recursos?"
 
 #. module: tareaslatinux
-#: field:lt.target,file_ids:0
-msgid "Adjunto"
-msgstr "Adjunto"
+#: view:lt.target.report.wizard:0
+#: view:lt.task.report.wizard:0
+msgid "Create"
+msgstr "Crear"
 
 #. module: tareaslatinux
-#: selection:lt.target.report.wizard,report_type:0
-msgid "Imprimir CSV"
-msgstr "Imprimir CSV"
+#: selection:lt.target.report.wizard,state:0
+#: selection:lt.task.report.wizard,state:0
+msgid "choose"
+msgstr "elegir"
 
 #. module: tareaslatinux
-#: constraint:res.company:0
-msgid "Error! You can not create recursive companies."
-msgstr "¡Error! No se pueden crear compañías recursivas."
-
-#. module: tareaslatinux
-#: selection:lt.target.report.wizard,report_type:0
-msgid "Imprimir PDF"
-msgstr "Imprimir PDF"
+#: view:board.board:0
+#: model:ir.actions.act_window,name:tareaslatinux.action_pending_tasks_tree
+msgid "Pending Tasks"
+msgstr "Tareas en curso (pendientes)"
 
 #. module: tareaslatinux
 #: field:lt.tarea,delay:0
 msgid "Delay"
-msgstr "Delay"
+msgstr "Retardo"
 
 #. module: tareaslatinux
-#: field:lt.target.report.wizard,data:0
-#: field:lt.task.report.wizard,data:0
-msgid "Reporte"
-msgstr "Reporte"
+#: field:lt.target.report.wizard,report_type:0
+msgid "Report Type"
+msgstr "Tipo de reporte"
 
 #. module: tareaslatinux
 #: field:lt.tarea,state:0
+#: field:lt.target.report.wizard,state:0
 msgid "State"
 msgstr "Estado"
+
+#. module: tareaslatinux
+#: selection:lt.tarea,priority:0
+msgid "Critical"
+msgstr "Critica"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
@@ -93,40 +92,29 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: tareaslatinux
-#: view:lt.tarea:0
-msgid "Print Report"
-msgstr "Imprimir Reporte"
-
-#. module: tareaslatinux
-#: field:lt.target.report.wizard,report_type:0
-msgid "Tipo de reporte"
-msgstr "Tipo de reporte"
+#: field:lt.target,file_ids:0
+msgid "Attachment"
+msgstr "Adjunto"
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
 msgid "New"
-msgstr "New"
-
-#. module: tareaslatinux
-#: field:lt.target.report.wizard,report_file:0
-#: field:lt.task.report.wizard,report_file:0
-msgid "Nombre de Reporte"
-msgstr "Nombre de Reporte"
+msgstr "Nueva"
 
 #. module: tareaslatinux
 #: field:lt.tarea,reference:0
 msgid "Reference Doc"
-msgstr "Reference Doc"
+msgstr "Doc de Referencia"
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
 msgid "Pending"
-msgstr "Pending"
+msgstr "En curso o pendientes"
 
 #. module: tareaslatinux
 #: field:lt.tarea,target_id:0
 msgid "Target"
-msgstr "Target"
+msgstr "Objetivo"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_lt_tarea
@@ -136,13 +124,13 @@ msgstr "lt.tarea"
 #. module: tareaslatinux
 #: field:lt.recurso,name:0
 msgid "Product"
-msgstr "Product"
+msgstr "Producto"
 
 #. module: tareaslatinux
 #: field:lt.tarea,description:0
 #: field:lt.target,description:0
 msgid "Description"
-msgstr "Description"
+msgstr "Descripcion"
 
 #. module: tareaslatinux
 #: model:ir.actions.act_window,name:tareaslatinux.action_report_task_1
@@ -152,37 +140,46 @@ msgid "Task Report"
 msgstr "Reporte Tareas"
 
 #. module: tareaslatinux
-#: field:lt.target.report.wizard,target_ids:0
-msgid "Filtar Objetivos"
-msgstr "Filtar Objetivos"
+#: selection:lt.tarea,priority:0
+msgid "Normal"
+msgstr "Normal"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_lt_task_report_wizard
-#: model:ir.model,name:tareaslatinux.model_task_report_wizard
 msgid "Crear Reporte de Tareas"
 msgstr "Crear Reporte de Tareas"
 
 #. module: tareaslatinux
-#: field:lt.target.report.wizard,state:0
-#: field:lt.task.report.wizard,state:0
-msgid "estado"
-msgstr "estado"
+#: field:ir.attachment,target_id:0
+msgid "unknown"
+msgstr "desconocido"
 
 #. module: tareaslatinux
 #: field:lt.recurso,resource_price:0
 msgid "Price"
-msgstr "Price"
+msgstr "Precio"
 
 #. module: tareaslatinux
-#: field:lt.target.report.wizard,date_min:0
-msgid "Fecha desde"
-msgstr "Fecha desde"
+#: view:board.board:0
+#: model:ir.actions.act_window,name:tareaslatinux.open_board_tasks
+msgid "Tasks Dashboard"
+msgstr "Tablero de Tareas"
+
+#. module: tareaslatinux
+#: view:lt.tarea:0
+msgid "task name"
+msgstr "Nombre de la tarea"
 
 #. module: tareaslatinux
 #: model:ir.module.category,name:tareaslatinux.module_category_tareasymantenimientos
 #: model:ir.ui.menu,name:tareaslatinux.lt_tarea_menu
 msgid "TyM"
 msgstr "TyM"
+
+#. module: tareaslatinux
+#: field:lt.task.report.wizard,state:0
+msgid "state"
+msgstr "estado"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_ir_attachment
@@ -192,7 +189,7 @@ msgstr "ir.attachment"
 #. module: tareaslatinux
 #: field:lt.tarea,date_cancel:0
 msgid "Cancel Date"
-msgstr "Cancel Date"
+msgstr "Fecha de cancelacion"
 
 #. module: tareaslatinux
 #: field:lt.tarea,tarea_amount_total:0
@@ -201,18 +198,20 @@ msgstr "Gasto total ($)"
 
 #. module: tareaslatinux
 #: model:ir.actions.act_window,name:tareaslatinux.action_report_target_1
+#: field:lt.target.report.wizard,data:0
+#: field:lt.task.report.wizard,data:0
 msgid "Report"
-msgstr "Report"
+msgstr "Reporte"
 
 #. module: tareaslatinux
 #: field:lt.tarea,date_deadline:0
 msgid "Deadline"
-msgstr "Fecha límite"
+msgstr "Fecha limite"
 
 #. module: tareaslatinux
 #: field:lt.recurso,quantity:0
 msgid "Quantity"
-msgstr "Quantity"
+msgstr "Cantidad"
 
 #. module: tareaslatinux
 #: selection:lt.target.report.wizard,state:0
@@ -221,10 +220,10 @@ msgid "fin"
 msgstr "fin"
 
 #. module: tareaslatinux
-#: view:lt.target.report.wizard:0
-#: view:lt.task.report.wizard:0
-msgid "Create"
-msgstr "Create"
+#: view:lt.tarea:0
+#: field:lt.tarea,name:0
+msgid "Task Name"
+msgstr "Nombre de Tarea"
 
 #. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_lt_target
@@ -232,9 +231,9 @@ msgid "lt.target"
 msgstr "lt.target"
 
 #. module: tareaslatinux
-#: model:res.groups,name:tareaslatinux.group_tareaslatinux_user
-msgid "User"
-msgstr "Usuario"
+#: help:lt.target.report.wizard,report_file:0
+msgid "File extension is not needed"
+msgstr "No se necesita extension de archivo"
 
 #. module: tareaslatinux
 #: view:lt.target:0
@@ -253,50 +252,47 @@ msgid "Task"
 msgstr "Tarea"
 
 #. module: tareaslatinux
-#: sql_constraint:res.company:0
-msgid "The company name must be unique !"
-msgstr "¡El nombre de la compañía debe ser único!"
+#: field:lt.target.report.wizard,report_file:0
+#: field:lt.task.report.wizard,report_file:0
+msgid "Report Name"
+msgstr "Nombre de Reporte"
 
 #. module: tareaslatinux
 #: field:lt.target,name:0
 msgid "Name"
-msgstr "Name"
+msgstr "Nombre"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
 msgid "Start Task"
-msgstr "Start Task"
+msgstr "Comenzar Tarea"
+
+#. module: tareaslatinux
+#: view:lt.tarea:0
+msgid "Print Report"
+msgstr "Imprimir Reporte"
 
 #. module: tareaslatinux
 #: view:lt.target.report.wizard:0
+#: field:lt.target.report.wizard,target_ids:0
 msgid "Target Filter"
-msgstr "Target Filter"
+msgstr "Filtrar Objetivos"
 
 #. module: tareaslatinux
 #: model:ir.actions.act_window,name:tareaslatinux.action_lt_target_tree
-#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_menu_3
+#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_target_tree_view_menu
 msgid "TyM Targets"
 msgstr "TyM Objetivos"
 
 #. module: tareaslatinux
-#: model:ir.model,name:tareaslatinux.model_res_company
-msgid "Companies"
-msgstr "Compañías"
-
-#. module: tareaslatinux
 #: view:lt.target.report.wizard:0
 msgid "Tasks Report"
-msgstr "Tasks Report"
+msgstr "Reporte de Tareas"
 
 #. module: tareaslatinux
 #: field:lt.tarea,resource_ids:0
 msgid "Recursos"
 msgstr "Recursos"
-
-#. module: tareaslatinux
-#: field:lt.target.report.wizard,detailed:0
-msgid "Imprimir recursos?"
-msgstr "Imprimir recursos?"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
@@ -316,10 +312,9 @@ msgid "Crear Reporte de Objetivos"
 msgstr "Crear Reporte de Objetivos"
 
 #. module: tareaslatinux
-#: view:lt.target.report.wizard:0
-#: view:lt.task.report.wizard:0
-msgid "Close"
-msgstr "Cerrar"
+#: field:lt.target,partner_id:0
+msgid "Partner"
+msgstr "Cliente"
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
@@ -332,20 +327,15 @@ msgid "TyM Resources tree"
 msgstr "TyM Recursos"
 
 #. module: tareaslatinux
-#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_menu_4
+#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_target_tree_root_menu
 #: view:lt.target:0
 msgid "TyM Target"
 msgstr "TyM Objetivo"
 
 #. module: tareaslatinux
-#: help:lt.target.report.wizard,report_file:0
-msgid "No es necesario agregar la extensión del archivo"
-msgstr "No es necesario agregar la extensión del archivo"
-
-#. module: tareaslatinux
-#: view:lt.tarea:0
-msgid "lt Tasks"
-msgstr "lt Tasks"
+#: selection:lt.target.report.wizard,report_type:0
+msgid "Print PDF"
+msgstr "Imprimir PDF"
 
 #. module: tareaslatinux
 #: field:lt.tarea,order_by:0
@@ -353,9 +343,9 @@ msgid "Order By"
 msgstr "Pedido por"
 
 #. module: tareaslatinux
-#: model:ir.model,name:tareaslatinux.model_task_report_configuration
-msgid "task.report.configuration"
-msgstr "task.report.configuration"
+#: field:lt.tarea,priority:0
+msgid "Priority"
+msgstr "Prioridad"
 
 #. module: tareaslatinux
 #: view:lt.target:0
@@ -373,9 +363,9 @@ msgid "Creator"
 msgstr "Creador"
 
 #. module: tareaslatinux
-#: model:ir.model,name:tareaslatinux.model_latinuxtarea_tarea
-msgid "latinuxtarea.tarea"
-msgstr "latinuxtarea.tarea"
+#: view:lt.tarea:0
+msgid "lt Tasks"
+msgstr "lt Tareas"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
@@ -383,20 +373,17 @@ msgid "Finish Task"
 msgstr "Finalizar Tarea"
 
 #. module: tareaslatinux
-#: field:lt.target,location:0
-msgid "Ubicación"
-msgstr "Ubicación"
-
-#. module: tareaslatinux
 #: model:ir.model,name:tareaslatinux.model_lt_recurso
 msgid "lt.recurso"
 msgstr "lt.recurso"
 
 #. module: tareaslatinux
+#: model:ir.actions.act_window,name:tareaslatinux.action_lt_tarea_tree
+#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_root_menu
+#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_task_tree_view_menu
 #: view:lt.tarea:0
-#: field:lt.tarea,name:0
-msgid "Task Name"
-msgstr "Nombre Tarea"
+msgid "TyM Task"
+msgstr "TyM Tareas"
 
 #. module: tareaslatinux
 #: model:res.groups,name:tareaslatinux.group_tareaslatinux_manager
@@ -406,7 +393,7 @@ msgstr "Responsable"
 #. module: tareaslatinux
 #: field:lt.tarea,date:0
 msgid "Create Date"
-msgstr "Fecha Creación"
+msgstr "Fecha Creacion"
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
@@ -414,14 +401,14 @@ msgid "Done"
 msgstr "Hecho"
 
 #. module: tareaslatinux
+#: model:res.groups,name:tareaslatinux.group_tareaslatinux_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: tareaslatinux
 #: view:lt.tarea:0
 msgid "For changing to open state"
 msgstr "Cambiar a abierta"
-
-#. module: tareaslatinux
-#: field:lt.target,partner_id:0
-msgid "Partner"
-msgstr "Cliente"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
@@ -431,26 +418,29 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: tareaslatinux
-#: field:lt.target.report.wizard,date_max:0
-msgid "Fecha hasta"
-msgstr "Fecha hasta"
+#: view:lt.target.report.wizard:0
+#: view:lt.task.report.wizard:0
+msgid "Close"
+msgstr "Cerrar"
 
 #. module: tareaslatinux
-#: field:ir.attachment,target_id:0
-msgid "unknown"
-msgstr "desconocido"
+#: field:lt.target.report.wizard,date_min:0
+msgid "Start Date"
+msgstr "Fecha de comienzo"
 
 #. module: tareaslatinux
-#: model:ir.actions.act_window,name:tareaslatinux.action_lt_tarea_tree
-#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_menu_1
-#: model:ir.ui.menu,name:tareaslatinux.lt_tarea_menu_2
-#: view:lt.tarea:0
-msgid "TyM Task"
-msgstr "TyM Tareas"
+#: selection:lt.target.report.wizard,report_type:0
+msgid "Print CSV"
+msgstr "Imprimir CSV"
 
 #. module: tareaslatinux
-#: selection:lt.target.report.wizard,state:0
-#: selection:lt.task.report.wizard,state:0
-msgid "choose"
-msgstr "elegir"
+#: view:board.board:0
+#: model:ir.actions.act_window,name:tareaslatinux.action_new_tasks_tree
+msgid "New Tasks"
+msgstr "Nueva Tarea"
+
+#. module: tareaslatinux
+#: field:lt.target,location:0
+msgid "Location"
+msgstr "Ubicacion"
 
