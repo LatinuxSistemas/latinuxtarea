@@ -24,7 +24,7 @@ msgstr "Tareas Asociadas"
 #: field:lt.tarea,date_finish:0
 #: field:lt.target.report.wizard,date_max:0
 msgid "Finish Date"
-msgstr "Fecha de finalizacion"
+msgstr "Fecha de finalización"
 
 #. module: tareaslatinux
 #: help:lt.tarea,state:0
@@ -34,8 +34,8 @@ msgid "When the task is created the state is 'Draft'.\n"
 "                                  If the task is over, the states is set to 'Done'."
 msgstr "Cuando la tarea es creada el estado es 'Borrador'.\n"
 "                                  Si la tarea es comenzada, el estado pasa a 'En Curso'.\n"
-"                                  Si la tarea necesita ser revisada cambia a estado 'Pendiente'.\n"
-"                                  Si la tarea se termina, el estado cambia a 'Terminada'."
+"                                  Si la tarea necesita ser revisada pasará a estar 'Pendiente'.\n"
+"                                  Si la tarea se termina, el estado será 'Terminada'."
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
@@ -84,7 +84,7 @@ msgstr "Estado"
 #. module: tareaslatinux
 #: selection:lt.tarea,priority:0
 msgid "Critical"
-msgstr "Critica"
+msgstr "Crítica"
 
 #. module: tareaslatinux
 #: view:lt.tarea:0
@@ -130,7 +130,7 @@ msgstr "Producto"
 #: field:lt.tarea,description:0
 #: field:lt.target,description:0
 msgid "Description"
-msgstr "Descripcion"
+msgstr "Descripción"
 
 #. module: tareaslatinux
 #: model:ir.actions.act_window,name:tareaslatinux.action_report_task_1
@@ -189,7 +189,7 @@ msgstr "ir.attachment"
 #. module: tareaslatinux
 #: field:lt.tarea,date_cancel:0
 msgid "Cancel Date"
-msgstr "Fecha de cancelacion"
+msgstr "Fecha de cancelación"
 
 #. module: tareaslatinux
 #: field:lt.tarea,tarea_amount_total:0
@@ -206,7 +206,7 @@ msgstr "Reporte"
 #. module: tareaslatinux
 #: field:lt.tarea,date_deadline:0
 msgid "Deadline"
-msgstr "Fecha limite"
+msgstr "Fecha límite"
 
 #. module: tareaslatinux
 #: field:lt.recurso,quantity:0
@@ -233,7 +233,7 @@ msgstr "lt.target"
 #. module: tareaslatinux
 #: help:lt.target.report.wizard,report_file:0
 msgid "File extension is not needed"
-msgstr "No se necesita extension de archivo"
+msgstr "No se necesita extensión de archivo"
 
 #. module: tareaslatinux
 #: view:lt.target:0
@@ -297,7 +297,7 @@ msgstr "Recursos"
 #. module: tareaslatinux
 #: view:lt.tarea:0
 msgid "Resource lines"
-msgstr "Lineas de Recursos"
+msgstr "Líneas de Recursos"
 
 #. module: tareaslatinux
 #: model:ir.actions.act_window,name:tareaslatinux.action_lt_recursos_form
@@ -393,7 +393,7 @@ msgstr "Responsable"
 #. module: tareaslatinux
 #: field:lt.tarea,date:0
 msgid "Create Date"
-msgstr "Fecha Creacion"
+msgstr "Fecha Creación"
 
 #. module: tareaslatinux
 #: selection:lt.tarea,state:0
@@ -442,5 +442,5 @@ msgstr "Nueva Tarea"
 #. module: tareaslatinux
 #: field:lt.target,location:0
 msgid "Location"
-msgstr "Ubicacion"
+msgstr "Ubicación"
 
